@@ -418,7 +418,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 </section>
 <section id="obtención-de-los-documentos-almacenados" class="level3">
 <h3 class="anchored" data-anchor-id="obtención-de-los-documentos-almacenados">Obtención de los documentos almacenados</h3>
-<p>Si nuestra base de documentos inicial contenia documentos duplicados, estos se han eliminado en el proceso de indexación. Por lo tanto, el número de documentos almacenados en Vectorstore podría ser menor que el número de documentos de la base inicial.</p>
+<p>Si nuestra base de documentos inicial contenía documentos duplicados, éstos se han eliminado en el proceso de indexación. Por lo tanto, el número de documentos almacenados en Vectorstore podría ser menor que el número de documentos de la base inicial.</p>
 <p>Al obtener los documentos almacenados en Vectorstore podemos tener una copia fidedigna de la base de datos inicial, pero sin duplicados. Esta copia puede ser utlizada para crear un nuevo índice o inicializar un retriever.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>vector_keys <span class="op">=</span> vectorstore.get(</span>
@@ -480,7 +480,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="st">given question based solely on the provided search results (URL and content). You must </span><span class="ch">\</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="st">only use information from the provided search results. Use an unbiased and </span><span class="ch">\</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="st">journalistic tone. Combine search results together into a coherent answer. Do not </span><span class="ch">\</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">repeat text. Cite search results using [$</span><span class="sc">{{</span><span class="st">number</span><span class="sc">}}</span><span class="st">] noation. Only cite the most </span><span class="ch">\</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="st">repeat text. Cite search results using [$</span><span class="sc">{{</span><span class="st">number</span><span class="sc">}}</span><span class="st">] notation. Only cite the most </span><span class="ch">\</span></span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="st">relevant results that answer the question accurately. Place these citations at the end </span><span class="ch">\</span></span>
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="st">of the sentence or paragraph that reference them - do not put them all at the end. If </span><span class="ch">\</span></span>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="st">different results refer to different entities within the same name, write separate </span><span class="ch">\</span></span>
@@ -496,12 +496,12 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 <span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="st">    </span><span class="sc">{context}</span></span>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/context&gt;</span></span>
 <span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="st">REMBEMBER: If there is no relevant information withing the context, just say "Hmm, </span><span class="ch">\</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="st">REMBEMBER: If there is no relevant information within the context, just say "Hmm, </span><span class="ch">\</span></span>
 <span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="st">I'm not sure.". Don't try to make up an answer. This is not a suggestion. This is a rule. </span><span class="ch">\</span></span>
 <span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="st">Anything between the preceding 'context' html blocks is retrieved from a knowledge bank, </span><span class="ch">\</span></span>
 <span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="st">not part of the conversation with the user.</span></span>
 <span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="st">Take a deep breath and relax. You an exper programmer and problem-solver. You can do this.</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="st">Take a deep breath and relax. You are an expert programmer and problem-solver. You can do this.</span></span>
 <span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="st">You can cite all the relevant information from the search results. Let's go!"""</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>

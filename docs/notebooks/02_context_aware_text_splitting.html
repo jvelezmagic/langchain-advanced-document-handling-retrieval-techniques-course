@@ -278,17 +278,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#librerías" id="toc-librerías" class="nav-link active" data-scroll-target="#librerías">Librerías</a></li>
   <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a></li>
   <li><a href="#fragmentación-de-texto-sin-tener-en-cuenta-el-contexto" id="toc-fragmentación-de-texto-sin-tener-en-cuenta-el-contexto" class="nav-link" data-scroll-target="#fragmentación-de-texto-sin-tener-en-cuenta-el-contexto">Fragmentación de texto sin tener en cuenta el contexto</a></li>
-  <li><a href="#framentación-de-texto-con-contexto-de-distrubución-de-tokens" id="toc-framentación-de-texto-con-contexto-de-distrubución-de-tokens" class="nav-link" data-scroll-target="#framentación-de-texto-con-contexto-de-distrubución-de-tokens">Framentación de texto con contexto de distrubución de <code>tokens</code></a>
+  <li><a href="#fragmentación-de-texto-con-contexto-de-distrubución-de-tokens" id="toc-fragmentación-de-texto-con-contexto-de-distrubución-de-tokens" class="nav-link" data-scroll-target="#fragmentación-de-texto-con-contexto-de-distrubución-de-tokens">Fragmentación de texto con contexto de distrubución de <code>tokens</code></a>
   <ul class="collapse">
   <li><a href="#funciones-de-apoyo" id="toc-funciones-de-apoyo" class="nav-link" data-scroll-target="#funciones-de-apoyo">Funciones de apoyo</a></li>
   <li><a href="#estadísticas-de-tokens-en-los-textos" id="toc-estadísticas-de-tokens-en-los-textos" class="nav-link" data-scroll-target="#estadísticas-de-tokens-en-los-textos">Estadísticas de tokens en los textos</a></li>
   <li><a href="#visualización-de-distribución-de-tokens-sin-outliers" id="toc-visualización-de-distribución-de-tokens-sin-outliers" class="nav-link" data-scroll-target="#visualización-de-distribución-de-tokens-sin-outliers">Visualización de distribución de tokens sin outliers</a></li>
-  <li><a href="#framentación-de-texto-con-base-en-la-distribución-de-tokens" id="toc-framentación-de-texto-con-base-en-la-distribución-de-tokens" class="nav-link" data-scroll-target="#framentación-de-texto-con-base-en-la-distribución-de-tokens">Framentación de texto con base en la distribución de tokens</a></li>
+  <li><a href="#fragmentación-de-texto-con-base-en-la-distribución-de-tokens" id="toc-fragmentación-de-texto-con-base-en-la-distribución-de-tokens" class="nav-link" data-scroll-target="#fragmentación-de-texto-con-base-en-la-distribución-de-tokens">Fragmentación de texto con base en la distribución de tokens</a></li>
   </ul></li>
-  <li><a href="#framentación-de-texto-con-contexto" id="toc-framentación-de-texto-con-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-con-contexto">Framentación de texto con contexto</a>
+  <li><a href="#fragmentación-de-texto-con-contexto" id="toc-fragmentación-de-texto-con-contexto" class="nav-link" data-scroll-target="#fragmentación-de-texto-con-contexto">Fragmentación de texto con contexto</a>
   <ul class="collapse">
-  <li><a href="#framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" id="toc-framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Framentación de texto con base en una especificación de lenguaje como contexto</a></li>
-  <li><a href="#framentación-de-texto-utilizando-encabezados-como-contexto" id="toc-framentación-de-texto-utilizando-encabezados-como-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-utilizando-encabezados-como-contexto">Framentación de texto utilizando encabezados como contexto</a></li>
+  <li><a href="#fragmentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" id="toc-fragmentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="nav-link" data-scroll-target="#fragmentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Fragmentación de texto con base en una especificación de lenguaje como contexto</a></li>
+  <li><a href="#fragmentación-de-texto-utilizando-encabezados-como-contexto" id="toc-fragmentación-de-texto-utilizando-encabezados-como-contexto" class="nav-link" data-scroll-target="#fragmentación-de-texto-utilizando-encabezados-como-contexto">Fragmentación de texto utilizando encabezados como contexto</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/02_context_aware_text_splitting.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
@@ -569,8 +569,8 @@ combined.invoke({"topic": "bears"})
 </div>
 </div>
 </section>
-<section id="framentación-de-texto-con-contexto-de-distrubución-de-tokens" class="level2">
-<h2 class="anchored" data-anchor-id="framentación-de-texto-con-contexto-de-distrubución-de-tokens">Framentación de texto con contexto de distrubución de <code>tokens</code></h2>
+<section id="fragmentación-de-texto-con-contexto-de-distrubución-de-tokens" class="level2">
+<h2 class="anchored" data-anchor-id="fragmentación-de-texto-con-contexto-de-distrubución-de-tokens">Fragmentación de texto con contexto de distrubución de <code>tokens</code></h2>
 <p>En muchas ocasiones, el contexto de cómo se distribuyen los <code>tokens</code> o <code>caracteres</code> en el texto puede ser de gran ayuda para decidir cómo fragmentar el texto. Veámoslo con un ejemplo.</p>
 <section id="funciones-de-apoyo" class="level3">
 <h3 class="anchored" data-anchor-id="funciones-de-apoyo">Funciones de apoyo</h3>
@@ -591,7 +591,7 @@ combined.invoke({"topic": "bears"})
 </section>
 <section id="estadísticas-de-tokens-en-los-textos" class="level3">
 <h3 class="anchored" data-anchor-id="estadísticas-de-tokens-en-los-textos">Estadísticas de tokens en los textos</h3>
-<p>Calculemos algunas estadísticas de los <code>tokens</code> en los textos utilizado <code>pandas</code>.</p>
+<p>Calculemos algunas estadísticas de los <code>tokens</code> en los textos utilizando <code>pandas</code>.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tokens_per_document <span class="op">=</span> pd.Series([num_tokens_from_document(doc) <span class="cf">for</span> doc <span class="kw">in</span> docs])</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>tokens_per_document.describe()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -607,7 +607,7 @@ max      80983.000000
 dtype: float64</code></pre>
 </div>
 </div>
-<p>La amplia variabilidad en el número de tokens por documento sugiere que se está tratando con documentos de longitudes muy diversas, desde muy cortos hasta muy largos. Esto podría afectar a los análisis subsiguientes y debería tenerse en cuenta al desarrollar modelos de procesamiento de lenguaje natural, ajustando posiblemente los métodos de preprocesamiento o utilizando técnicas que puedan manejar eficientemente documentos de diferentes longitudes. Además, el sesgo a la derecha en la distribución sugiere que aunque la mayoría de los documentos son relativamente cortos, hay algunos documentos extremadamente largos que podrían ser atípicos y necesitar un tratamiento especial.</p>
+<p>La amplia variabilidad en el número de tokens por documento sugiere que se está tratando con documentos de longitudes muy diversas, desde muy cortos hasta muy largos. Esto podría afectar a los análisis subsiguientes y debería tenerse en cuenta al desarrollar modelos de procesamiento de lenguaje natural, ajustando posiblemente los métodos de preprocesamiento o utilizando técnicas que puedan manejar eficientemente documentos de diferentes longitudes. Además, el sesgo a la derecha en la distribución sugiere que, aunque la mayoría de los documentos son relativamente cortos, hay algunos documentos extremadamente largos que podrían ser atípicos y necesitar un tratamiento especial.</p>
 </section>
 <section id="visualización-de-distribución-de-tokens-sin-outliers" class="level3">
 <h3 class="anchored" data-anchor-id="visualización-de-distribución-de-tokens-sin-outliers">Visualización de distribución de tokens sin outliers</h3>
@@ -640,9 +640,9 @@ dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="framentación-de-texto-con-base-en-la-distribución-de-tokens" class="level3">
-<h3 class="anchored" data-anchor-id="framentación-de-texto-con-base-en-la-distribución-de-tokens">Framentación de texto con base en la distribución de tokens</h3>
-<p>Considerando los resultados anteriores, podemos utilizar la información de la distribución de tokens para fragmentar el texto de forma más precisa. Para ello, utilizaremos la función <code>RecursiveCharacterTextSplitter()</code> de langchain, pero ahora especifícaremos los parámetros <code>chunk_size</code> y <code>chunk_overlap</code>.</p>
+<section id="fragmentación-de-texto-con-base-en-la-distribución-de-tokens" class="level3">
+<h3 class="anchored" data-anchor-id="fragmentación-de-texto-con-base-en-la-distribución-de-tokens">Fragmentación de texto con base en la distribución de tokens</h3>
+<p>Considerando los resultados anteriores, podemos utilizar la información de la distribución de tokens para fragmentar el texto de forma más precisa. Para ello, utilizaremos la función <code>RecursiveCharacterTextSplitter()</code> de langchain, pero ahora especificaremos los parámetros <code>chunk_size</code> y <code>chunk_overlap</code>.</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    chunk_size<span class="op">=</span><span class="dv">1000</span>,</span>
@@ -852,11 +852,11 @@ combined.invoke({"topic": "bears"})
 </div>
 </section>
 </section>
-<section id="framentación-de-texto-con-contexto" class="level2">
-<h2 class="anchored" data-anchor-id="framentación-de-texto-con-contexto">Framentación de texto con contexto</h2>
+<section id="fragmentación-de-texto-con-contexto" class="level2">
+<h2 class="anchored" data-anchor-id="fragmentación-de-texto-con-contexto">Fragmentación de texto con contexto</h2>
 <p>Con el dominio del problema podemos fragmentar el texto de manera más precisa.</p>
-<section id="framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="level3">
-<h3 class="anchored" data-anchor-id="framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Framentación de texto con base en una especificación de lenguaje como contexto</h3>
+<section id="fragmentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="fragmentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Fragmentación de texto con base en una especificación de lenguaje como contexto</h3>
 <p>En nuestro ejemplo, nuestros documentos son <code>Markdown</code>, por lo que podríamos fragmentar el documento en función de los caracteres que se utilizan para definir los encabezados de las secciones y otros elementos de formato.</p>
 <p>En este caso, la función internamente utiliza los siguientes patrones para fragmentar el texto:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[</span>
@@ -1084,10 +1084,10 @@ combined.invoke({"topic": "bears"})
 </div>
 </div>
 </section>
-<section id="framentación-de-texto-utilizando-encabezados-como-contexto" class="level3">
-<h3 class="anchored" data-anchor-id="framentación-de-texto-utilizando-encabezados-como-contexto">Framentación de texto utilizando encabezados como contexto</h3>
-<p>En contrastraste con el ejemplo anterior, en este caso utilizaremos únicamente los encabezados de los documentos como contexto para fragmentar el texto. Estos encabezados pasarán a formar parte de los meta-datos de los fragmentos.</p>
-<p>Dentro de cada framento de encabezado, podríamos repetir el proceso de fragmentación de texto con base en la distribución de tokens o en una especificación de lenguaje como contexto.</p>
+<section id="fragmentación-de-texto-utilizando-encabezados-como-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="fragmentación-de-texto-utilizando-encabezados-como-contexto">Fragmentación de texto utilizando encabezados como contexto</h3>
+<p>En contraste con el ejemplo anterior, en este caso utilizaremos únicamente los encabezados de los documentos como contexto para fragmentar el texto. Estos encabezados pasarán a formar parte de los meta-datos de los fragmentos.</p>
+<p>Dentro de cada fragmento de encabezado, podríamos repetir el proceso de fragmentación de texto con base en la distribución de tokens o en una especificación de lenguaje como contexto.</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>md_headers_splits: <span class="bu">list</span>[Document] <span class="op">=</span> []</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>

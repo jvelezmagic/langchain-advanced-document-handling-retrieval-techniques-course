@@ -24,7 +24,7 @@ pyenv local 3.11.2
 
 - Instalación de [Poetry](https://python-poetry.org/docs/#installation).
 
-- Confuguración de Poetry para crear ambientes virtuales dentro de la raíz del proyecto con:
+- Configuración de Poetry para crear ambientes virtuales dentro de la raíz del proyecto con:
 
 ```bash
 poetry config virtualenvs.in-project true

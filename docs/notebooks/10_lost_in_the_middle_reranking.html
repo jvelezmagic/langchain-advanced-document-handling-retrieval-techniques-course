@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#creación-de-retriever" id="toc-creación-de-retriever" class="nav-link" data-scroll-target="#creación-de-retriever">Creación de retriever</a></li>
   <li><a href="#consulta-con-el-retriever" id="toc-consulta-con-el-retriever" class="nav-link" data-scroll-target="#consulta-con-el-retriever">Consulta con el retriever</a></li>
   <li><a href="#reordenado-de-documentos" id="toc-reordenado-de-documentos" class="nav-link" data-scroll-target="#reordenado-de-documentos">Reordenado de documentos</a></li>
-  <li><a href="#uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" id="toc-uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" class="nav-link" data-scroll-target="#uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrival Augmented Generation</code></a></li>
+  <li><a href="#uso-del-reordenador-en-nuestro-pipeline-de-retrieval-augmented-generation" id="toc-uso-del-reordenador-en-nuestro-pipeline-de-retrieval-augmented-generation" class="nav-link" data-scroll-target="#uso-del-reordenador-en-nuestro-pipeline-de-retrieval-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrieval Augmented Generation</code></a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/10_lost_in_the_middle_reranking.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
@@ -398,8 +398,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" class="level2">
-<h2 class="anchored" data-anchor-id="uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrival Augmented Generation</code></h2>
+<section id="uso-del-reordenador-en-nuestro-pipeline-de-retrieval-augmented-generation" class="level2">
+<h2 class="anchored" data-anchor-id="uso-del-reordenador-en-nuestro-pipeline-de-retrieval-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrieval Augmented Generation</code></h2>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> combine_documents(documents: <span class="bu">list</span>[Document]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>.join([doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> documents])</span>

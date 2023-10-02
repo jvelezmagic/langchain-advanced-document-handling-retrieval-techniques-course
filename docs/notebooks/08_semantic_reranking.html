@@ -281,7 +281,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#búsqueda-de-documentos-relevantes-por-palabras-clave" id="toc-búsqueda-de-documentos-relevantes-por-palabras-clave" class="nav-link" data-scroll-target="#búsqueda-de-documentos-relevantes-por-palabras-clave">Búsqueda de documentos relevantes por palabras clave</a></li>
   <li><a href="#re-ranking-semántico-de-los-documentos-relevantes" id="toc-re-ranking-semántico-de-los-documentos-relevantes" class="nav-link" data-scroll-target="#re-ranking-semántico-de-los-documentos-relevantes">Re-ranking semántico de los documentos relevantes</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/08_semantic_reranking.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -464,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="re-ranking-semántico-de-los-documentos-relevantes">Re-ranking semántico de los documentos relevantes</h2>
 <p>Una vez que hemos obtenido los documentos más relevantes para nuestra consulta de búsqueda, podemos re-rankearlos usando un modelo de búsqueda semántica basado en <strong>word embeddings</strong>.</p>
 <p>En este caso, utilizaremos <code>Cohere Rerank</code> para obtener los documentos más relevantes para nuestra consulta de búsqueda, re-rankeando los documentos obtenidos por BM25.</p>
-<p>Para que <code>Cohere Rerank</code> funcione necesitarás una cuenta de <code>Cohere</code> y un <code>API key</code>. Puedes obtener tu <code>API key</code> <a href="https://dashboard.cohere.com/api-keys">aquí</a>.</p>
+<p>Para que <code>Cohere Rerank</code> funcione, necesitarás una cuenta de <code>Cohere</code> y un <code>API key</code>. Puedes obtener tu <code>API key</code> <a href="https://dashboard.cohere.com/api-keys">aquí</a>.</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>co <span class="op">=</span> cohere.Client()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

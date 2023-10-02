@@ -341,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Para crear un <code>índice</code> es necesario inicializar:</p>
 <ul>
 <li><code>Vectorstore</code>: para almacenar los vectores de los documentos.</li>
-<li><code>Record Manager</code>: para almacenar qué vectores han sidoe indexados y cuándo.</li>
+<li><code>Record Manager</code>: para almacenar qué vectores han sido indexados y cuándo.</li>
 </ul>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>collection_name <span class="op">=</span> <span class="st">"langchain_docs_index"</span></span>
@@ -360,7 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>record_manager.create_schema()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
-<p>Es una buena practica inicializar el <code>namespace</code> de nuestro <code>Record Manager</code> con el nombre de nuestra <code>Vectorstore</code> y el nombre del <code>Collection</code> que estamos indexando.</p>
+<p>Es una buena práctica inicializar el <code>namespace</code> de nuestro <code>Record Manager</code> con el nombre de nuestra <code>Vectorstore</code> y el nombre del <code>Collection</code> que estamos indexando.</p>
 </blockquote>
 </section>
 <section id="indexación" class="level2">
@@ -531,7 +531,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 </section>
 <section id="indexación-a-partir-de-un-baseloader-de-langchain" class="level3">
 <h3 class="anchored" data-anchor-id="indexación-a-partir-de-un-baseloader-de-langchain">Indexación a partir de un <code>BaseLoader</code> de <code>Langchain</code></h3>
-<p>Langchain estable el concepto de <code>BaseLoader</code> como clases que se encargan de cargar datos de diferentes fuentes de datos o con un procesamiento específico. Estos pueden ser extendidos para crear <code>Loaders</code> personalizados. Y, a su vez, ser utilizados para indexar documentos dentro de nuestro <code>pipeline</code> de ingesta.</p>
+<p>Langchain establece el concepto de <code>BaseLoader</code> como clases que se encargan de cargar datos de diferentes fuentes de datos o con un procesamiento específico. Estos pueden ser extendidos para crear <code>Loaders</code> personalizados. Y, a su vez, ser utilizados para indexar documentos dentro de nuestro <code>pipeline</code> de ingesta.</p>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.document_loaders.base <span class="im">import</span> BaseLoader</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>

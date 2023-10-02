@@ -293,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#recuperación-de-documentos-con-el-retriever" id="toc-recuperación-de-documentos-con-el-retriever" class="nav-link" data-scroll-target="#recuperación-de-documentos-con-el-retriever">Recuperación de documentos con el <code>retriever</code></a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/05_self_retrievers.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -377,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="etiquetado-de-documentos" class="level2">
 <h2 class="anchored" data-anchor-id="etiquetado-de-documentos">Etiquetado de documentos</h2>
-<p>Los documentos por sí mismos son últiles, pero cuando son etiquetados con información adicional, pueden volverse más útiles. Por ejemplo, si etiquetamos los documentos con su idioma, podemos filtrar los documentos que no estén en el idioma que nos interesa. Si etiquetamos los documentos con su tema, podemos filtrar los documentos que no estén relacionados con el tema que nos interesa. De esta manera, podemos reducir el espacio de búsqueda y obtener mejores resultados.</p>
+<p>Los documentos por sí mismos son útiles, pero cuando son etiquetados con información adicional, pueden volverse más útiles. Por ejemplo, si etiquetamos los documentos con su idioma, podemos filtrar los documentos que no estén en el idioma que nos interesa. Si etiquetamos los documentos con su tema, podemos filtrar los documentos que no estén relacionados con el tema que nos interesa. De esta manera, podemos reducir el espacio de búsqueda y obtener mejores resultados.</p>
 <section id="creación-de-esquema-de-etiquetas" class="level3">
 <h3 class="anchored" data-anchor-id="creación-de-esquema-de-etiquetas">Creación de esquema de etiquetas</h3>
 <div class="cell" data-execution_count="5">
@@ -507,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="ejemplos-de-uso-del-etiquetador" class="level3">
 <h3 class="anchored" data-anchor-id="ejemplos-de-uso-del-etiquetador">Ejemplos de uso del etiquetador</h3>
-<p>Probablemente, un fragmento que únicamente contiene una lista de enlaces a otros fragmentos que también se encuentran indexados no es muy útil. Esto podría ocasionar que recuperemos un documento que no es relevante para la consulta, mientra el documento que sí es relevante no se encuentraría en los primeros lugares de la lista de resultados.</p>
+<p>Probablemente, un fragmento que únicamente contiene una lista de enlaces a otros fragmentos que también se encuentran indexados no es muy útil. Esto podría ocasionar que recuperemos un documento que no es relevante para la consulta, mientras el documento que sí es relevante no se encuentre en los primeros lugares de la lista de resultados.</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>

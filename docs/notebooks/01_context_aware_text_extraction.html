@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#importar-librerías" id="toc-importar-librerías" class="nav-link active" data-scroll-target="#importar-librerías">Importar librerías</a></li>
+  <li><a href="#librerías" id="toc-librerías" class="nav-link active" data-scroll-target="#librerías">Librerías</a></li>
   <li><a href="#web" id="toc-web" class="nav-link" data-scroll-target="#web">Web</a>
   <ul class="collapse">
   <li><a href="#dataset-y-función-de-utilidad" id="toc-dataset-y-función-de-utilidad" class="nav-link" data-scroll-target="#dataset-y-función-de-utilidad">Dataset y función de utilidad</a></li>
@@ -286,10 +286,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pdf-docx-doc" id="toc-pdf-docx-doc" class="nav-link" data-scroll-target="#pdf-docx-doc">PDF / DOCX / DOC</a>
   <ul class="collapse">
   <li><a href="#dataset-de-prueba" id="toc-dataset-de-prueba" class="nav-link" data-scroll-target="#dataset-de-prueba">Dataset de prueba</a></li>
-  <li><a href="#cargar-tus-documentos" id="toc-cargar-tus-documentos" class="nav-link" data-scroll-target="#cargar-tus-documentos">Cargar tus documentos</a></li>
+  <li><a href="#carga-tus-documentos" id="toc-carga-tus-documentos" class="nav-link" data-scroll-target="#carga-tus-documentos">Carga tus documentos</a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/01_context_aware_text_extraction.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -311,8 +311,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="importar-librerías" class="level2">
-<h2 class="anchored" data-anchor-id="importar-librerías">Importar librerías</h2>
+<section id="librerías" class="level2">
+<h2 class="anchored" data-anchor-id="librerías">Librerías</h2>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
@@ -415,8 +415,7 @@ En</code></pre>
 </section>
 <section id="extracción-de-texto-teniendo-un-poco-de-contexto" class="level3">
 <h3 class="anchored" data-anchor-id="extracción-de-texto-teniendo-un-poco-de-contexto">Extracción de texto teniendo un poco de contexto</h3>
-<p>El texto de la documentación de <code>Langchain</code> está escrito en <code>Markdown</code> y por lo tanto, tiene una estructura que puede ser aprovechada para extraer el texto de manera más precisa.</p>
-<p>Utilicemos una librería que nos permita convertir el texto de <code>HTML</code> a <code>Markdown</code> y así poder extraer el texto de manera más precisa.</p>
+<p>El texto de la documentación de <code>Langchain</code> está escrito en <code>Markdown</code>, teniendo una estructura que puede ser aprovechada para extraer el texto de manera más precisa. Para ello, utilizaremos una librería que nos permita convertir el texto de <code>HTML</code> a <code>Markdown</code>.</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> markdown_extractor(html: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    html2text <span class="op">=</span> HTML2Text()</span>
@@ -549,7 +548,7 @@ three things:
 </section>
 <section id="extracción-de-texto-teniendo-en-cuenta-el-contexto" class="level3">
 <h3 class="anchored">Extracción de texto teniendo en cuenta el contexto</h3>
-<p>Si bien, cuando utilizamos una libreraía para convertir el texto de <code>HTML</code> a <code>Markdown</code> pudimos extraer el texto de manera más precisa, aún hay algunos casos en los que no se logra extraer el texto de manera correcta.</p>
+<p>Si bien, cuando utilizamos una librería para convertir el texto de <code>HTML</code> a <code>Markdown</code> pudimos extraer el texto de manera más precisa, aún hay algunos casos en los que no se logra extraer el texto de manera correcta.</p>
 <p>Es aquí donde entra en juego el dominio del problema. Con base en el conocimiento que tenemos del problema, podemos crear una función que nos permita extraer el texto de manera más precisa.</p>
 <p>Imagina que <code>langchain_docs_extractor</code> es como un obrero especializado en una fábrica cuyo trabajo es transformar materias primas (documentos HTML) en un producto terminado (un string limpio y formateado). Este obrero usa una herramienta especial, <code>get_text</code>, como una máquina para procesar las materias primas en piezas utilizables, examinando cada componente de la materia prima <strong>pieza por pieza</strong>, y usa el mismo proceso repetidamente (<strong>recursividad</strong>) para descomponer los componentes en su forma más simple. Al final, ensambla todas las piezas procesadas en un producto completo y hace algunos refinamientos finales antes de que el producto salga de la fábrica.</p>
 <div class="cell" data-execution_count="5">
@@ -1034,8 +1033,8 @@ LangChain provides several objects to easily disting</code></pre>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Los metadatos adicionales, como los mostrados arriba, pueden ser extremadamente útiles cuando se implementan <code>self-retrievers</code>, los cuales serán explorados adetalle más adelante.</p>
 </section>
-<section id="cargar-tus-documentos" class="level3">
-<h3 class="anchored" data-anchor-id="cargar-tus-documentos">Cargar tus documentos</h3>
+<section id="carga-tus-documentos" class="level3">
+<h3 class="anchored" data-anchor-id="carga-tus-documentos">Carga tus documentos</h3>
 <p>Si prefieres utilizar tus propios documentos, puedes cargarlos a través de la interfaz gráfica de <a href="https://www.docugami.com/">Docugami</a>. Una vez cargados, necesitarás asignar cada uno a un <code>docset</code>. Un <code>docset</code> es un conjunto de documentos que presentan una estructura análoga. Por ejemplo, todos los contratos de arrendamiento comercial por lo general poseen estructuras similares, por lo que pueden ser agrupados en un único <code>docset</code>.</p>
 <p>Después de crear tu <code>docset</code>, los documentos cargados serán procesados y estarán disponibles para su acceso mediante la API de <code>Docugami</code>.</p>
 <p>Para recuperar los <code>ids</code> de tus documentos y de sus correspondientes <code>docsets</code>, puedes ejecutar el siguiente comando:</p>

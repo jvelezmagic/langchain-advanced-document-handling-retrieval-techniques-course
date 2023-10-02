@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/03_indexing_vectors.html</loc>
-    <lastmod>2023-10-02T04:07:59.866Z</lastmod>
+    <lastmod>2023-10-02T23:48:56.418Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/index.html</loc>
@@ -10,14 +10,38 @@
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/02_context_aware_text_splitting.html</loc>
-    <lastmod>2023-10-02T04:23:48.781Z</lastmod>
+    <lastmod>2023-10-02T23:48:55.915Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/10_lost_in_the_middle_reranking.html</loc>
-    <lastmod>2023-10-02T04:24:24.662Z</lastmod>
+    <lastmod>2023-10-02T23:48:59.006Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/11_everything_together.html</loc>
-    <lastmod>2023-10-02T04:25:29.544Z</lastmod>
+    <lastmod>2023-10-02T23:48:59.467Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/01_context_aware_text_extraction.html</loc>
+    <lastmod>2023-10-02T23:48:55.404Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/04_parent_retrievers.html</loc>
+    <lastmod>2023-10-02T23:48:56.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/05_self_retrievers.html</loc>
+    <lastmod>2023-10-02T23:48:57.429Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/06_multi_query_retriever.html</loc>
+    <lastmod>2023-10-02T23:48:57.839Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/07_ensemble_retriever.html</loc>
+    <lastmod>2023-10-02T23:48:58.220Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/08_semantic_reranking.html</loc>
+    <lastmod>2023-10-02T23:48:58.623Z</lastmod>
   </url>
 </urlset>
