@@ -36,3 +36,5 @@ format:
       light: cosmo
       dark: darkly
     code-copy: true
+    language: es
+    lang: es
