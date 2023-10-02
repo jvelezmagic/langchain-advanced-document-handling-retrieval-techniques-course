@@ -1,5 +1,11 @@
 # Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain
 
+## Clonación del repositorio
+
+```bash
+git clone https://github.com/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course.git
+```
+
 ## Configuración de una sola vez
 
 - Instalación de [pyenv](https://github.com/pyenv/pyenv).
