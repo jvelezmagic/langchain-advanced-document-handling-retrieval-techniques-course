@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "langchain-advanced-document-handling-retrieval-techniques-course"
+version = "0.1.0"
+description = ""
+authors = ["Jesús Vélez Santiago <jvelezmagic@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "src", from = "." }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+tenacity = "^8.2.3"
+requests = "^2.31.0"
+bs4 = "^0.0.1"
+ipykernel = "^6.25.2"
+html2text = "^2020.1.16"
+lxml = "^4.9.3"
+tiktoken = "^0.5.1"
+pandas = "^2.1.1"
+langchain = "^0.0.305"
+seaborn = "^0.13.0"
+chromadb = "^0.4.13"
+python-dotenv = "^1.0.0"
+openai = "^0.28.1"
+pydantic = "^2.4.2"
+lark = "^1.1.7"
+rank-bm25 = "^0.2.2"
+cohere = "^4.27"
+streamlit = "^1.27.1"
+watchdog = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
