@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>book - Extracción de texto con base en el contexto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/02_context_aware_text_splitting.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/01_context_aware_text_extraction.html">Procesamiento de documentos</a></li><li class="breadcrumb-item"><a href="../notebooks/01_context_aware_text_extraction.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Extracción de texto con base en el contexto</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">book</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Procesamiento de documentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_context_aware_text_extraction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Extracción de texto con base en el contexto</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_context_aware_text_splitting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fragmentación de texto con base en el contexto</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/03_indexing_vectors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Indexación de vectores</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Recuperación de información</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_parent_retrievers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Parent retrievers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_self_retrievers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Self Retrievers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_multi_query_retriever.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multi-query retriever</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/07_ensemble_retriever.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ensemble Retriever</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Re-rankeo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/08_semantic_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Re-ranking semántico</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/09_maximal_marginal_relevance_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Re-ranking por relevancia marginal máxima (MMR)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/10_lost_in_the_middle_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Perdido en el medio: El problema con los contextos largos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Todo junto</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/11_everything_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Conceptos aprendidos</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#importar-librerías" id="toc-importar-librerías" class="nav-link active" data-scroll-target="#importar-librerías">Importar librerías</a></li>
+  <li><a href="#web" id="toc-web" class="nav-link" data-scroll-target="#web">Web</a>
+  <ul class="collapse">
+  <li><a href="#dataset-y-función-de-utilidad" id="toc-dataset-y-función-de-utilidad" class="nav-link" data-scroll-target="#dataset-y-función-de-utilidad">Dataset y función de utilidad</a></li>
+  <li><a href="#extracción-de-texto-sin-tener-en-cuenta-el-contexto" id="toc-extracción-de-texto-sin-tener-en-cuenta-el-contexto" class="nav-link" data-scroll-target="#extracción-de-texto-sin-tener-en-cuenta-el-contexto">Extracción de texto sin tener en cuenta el contexto</a></li>
+  <li><a href="#extracción-de-texto-teniendo-un-poco-de-contexto" id="toc-extracción-de-texto-teniendo-un-poco-de-contexto" class="nav-link" data-scroll-target="#extracción-de-texto-teniendo-un-poco-de-contexto">Extracción de texto teniendo un poco de contexto</a></li>
+  <li><a href="#extracción-de-texto-teniendo-en-cuenta-el-contexto" id="toc-extracción-de-texto-teniendo-en-cuenta-el-contexto" class="nav-link" data-scroll-target="#extracción-de-texto-teniendo-en-cuenta-el-contexto">Extracción de texto teniendo en cuenta el contexto</a></li>
+  </ul></li>
+  <li><a href="#pdf-docx-doc" id="toc-pdf-docx-doc" class="nav-link" data-scroll-target="#pdf-docx-doc">PDF / DOCX / DOC</a>
+  <ul class="collapse">
+  <li><a href="#dataset-de-prueba" id="toc-dataset-de-prueba" class="nav-link" data-scroll-target="#dataset-de-prueba">Dataset de prueba</a></li>
+  <li><a href="#cargar-tus-documentos" id="toc-cargar-tus-documentos" class="nav-link" data-scroll-target="#cargar-tus-documentos">Cargar tus documentos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Extracción de texto con base en el contexto</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="importar-librerías" class="level2">
+<h2 class="anchored" data-anchor-id="importar-librerías">Importar librerías</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pathlib</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Generator</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup, Doctype, NavigableString, SoupStrainer, Tag</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> html2text <span class="im">import</span> HTML2Text</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.core.display <span class="im">import</span> Markdown</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.document_loaders <span class="im">import</span> DocugamiLoader, RecursiveUrlLoader</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>True</code></pre>
+</div>
+</div>
+</section>
+<section id="web" class="level2">
+<h2 class="anchored" data-anchor-id="web">Web</h2>
+<section id="dataset-y-función-de-utilidad" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-y-función-de-utilidad">Dataset y función de utilidad</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>doc_url <span class="op">=</span> <span class="st">"https://python.langchain.com/docs/get_started/quickstart"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>load_documents <span class="op">=</span> partial(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    RecursiveUrlLoader,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    url<span class="op">=</span>doc_url,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    prevent_outside<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    check_response_status<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="extracción-de-texto-sin-tener-en-cuenta-el-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="extracción-de-texto-sin-tener-en-cuenta-el-contexto">Extracción de texto sin tener en cuenta el contexto</h3>
+<p>La primera aproximación para extraer texto de una página web es simplemente obtener el texto de todos los elementos de la página.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> webpage_text_extractor(html: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> BeautifulSoup(html, <span class="st">"lxml"</span>).get_text(separator<span class="op">=</span><span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, strip<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> load_documents(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    extractor<span class="op">=</span>webpage_text_extractor,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>docs_without_data_context <span class="op">=</span> loader.load()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(docs_without_data_context[<span class="dv">0</span>].page_content[:<span class="dv">520</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Quickstart | 🦜️🔗 Langchain
+Skip to main content
+🦜️🔗 LangChain
+Docs
+Use cases
+Integrations
+API
+Community
+Chat our docs
+LangSmith
+JS/TS Docs
+Search
+CTRL
+K
+Get started
+Introduction
+Installation
+Quickstart
+Modules
+Model I/​O
+Retrieval
+Chains
+Memory
+Agents
+Callbacks
+Modules
+LangChain Expression Language
+Guides
+More
+Get started
+Quickstart
+On this page
+Quickstart
+Installation
+​
+To install LangChain run:
+Pip
+Conda
+pip
+install
+langchain
+conda
+install
+langchain -c conda-forge
+For more details, see our
+Installation guide
+.
+En</code></pre>
+</div>
+</div>
+</section>
+<section id="extracción-de-texto-teniendo-un-poco-de-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="extracción-de-texto-teniendo-un-poco-de-contexto">Extracción de texto teniendo un poco de contexto</h3>
+<p>El texto de la documentación de <code>Langchain</code> está escrito en <code>Markdown</code> y por lo tanto, tiene una estructura que puede ser aprovechada para extraer el texto de manera más precisa.</p>
+<p>Utilicemos una librería que nos permita convertir el texto de <code>HTML</code> a <code>Markdown</code> y así poder extraer el texto de manera más precisa.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> markdown_extractor(html: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    html2text <span class="op">=</span> HTML2Text()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    html2text.ignore_links <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    html2text.ignore_images <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> html2text.handle(html)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> load_documents(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    extractor<span class="op">=</span>markdown_extractor,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>docs_with_a_bit_of_context <span class="op">=</span> loader.load()</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(docs_with_a_bit_of_context[<span class="dv">0</span>].page_content[:<span class="dv">3000</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Skip to main content
+
+[ **🦜️🔗 LangChain**](/)[Docs](/docs/get_started/introduction)[Use
+cases](/docs/use_cases/question_answering/)[Integrations](/docs/integrations/providers)[API](https://api.python.langchain.com)[Community](/docs/community)
+
+[Chat our
+docs](https://chat.langchain.com)[LangSmith](https://smith.langchain.com)[JS/TS
+Docs](https://js.langchain.com/docs)[](https://github.com/langchain-
+ai/langchain)
+
+Search
+
+CTRLK
+
+  * [Get started](/docs/get_started)
+
+    * [Introduction](/docs/get_started/introduction)
+    * [Installation](/docs/get_started/installation)
+    * [Quickstart](/docs/get_started/quickstart)
+  * [Modules](/docs/modules/)
+
+    * [Model I/​O](/docs/modules/model_io/)
+
+    * [Retrieval](/docs/modules/data_connection/)
+
+    * [Chains](/docs/modules/chains/)
+
+    * [Memory](/docs/modules/memory/)
+
+    * [Agents](/docs/modules/agents/)
+
+    * [Callbacks](/docs/modules/callbacks/)
+
+    * [Modules](/docs/modules/)
+  * [LangChain Expression Language](/docs/expression_language/)
+
+  * [Guides](/docs/guides)
+
+  * [More](/docs/additional_resources)
+
+  * [](/)
+  * [Get started](/docs/get_started)
+  * Quickstart
+
+On this page
+
+# Quickstart
+
+## Installation​
+
+To install LangChain run:
+
+  * Pip
+  * Conda
+
+    
+    
+    pip install langchain  
+    
+    
+    
+    conda install langchain -c conda-forge  
+    
+
+For more details, see our [Installation
+guide](/docs/get_started/installation.html).
+
+## Environment setup​
+
+Using LangChain will usually require integrations with one or more model
+providers, data stores, APIs, etc. For this example, we'll use OpenAI's model
+APIs.
+
+First we'll need to install their Python package:
+
+    
+    
+    pip install openai  
+    
+
+Accessing the API requires an API key, which you can get by creating an
+account and heading [here](https://platform.openai.com/account/api-keys). Once
+we have a key we'll want to set it as an environment variable by running:
+
+    
+    
+    export OPENAI_API_KEY="..."  
+    
+
+If you'd prefer not to set an environment variable you can pass the key in
+directly via the `openai_api_key` named parameter when initiating the OpenAI
+LLM class:
+
+    
+    
+    from langchain.llms import OpenAI  
+      
+    llm = OpenAI(openai_api_key="...")  
+    
+
+## Building an application​
+
+Now we can start building our language model application. LangChain provides
+many modules that can be used to build language model applications. Modules
+can be used as stand-alones in simple applications and they can be combined
+for more complex use cases.
+
+The most common and most important chain that LangChain helps create contains
+three things:
+
+  * LLM: The language model is the core reasoning engine here. In order to work with LangChain, you need to understand the different types of language models and how to work with them.
+  * Prompt Templates: This provides instructions to the language model. This controls what the language model outputs, so understanding how to construct prompts and different prompting strategi</code></pre>
+</div>
+</div>
+</section>
+<section id="extracción-de-texto-teniendo-en-cuenta-el-contexto" class="level3">
+<h3 class="anchored">Extracción de texto teniendo en cuenta el contexto</h3>
+<p>Si bien, cuando utilizamos una libreraía para convertir el texto de <code>HTML</code> a <code>Markdown</code> pudimos extraer el texto de manera más precisa, aún hay algunos casos en los que no se logra extraer el texto de manera correcta.</p>
+<p>Es aquí donde entra en juego el dominio del problema. Con base en el conocimiento que tenemos del problema, podemos crear una función que nos permita extraer el texto de manera más precisa.</p>
+<p>Imagina que <code>langchain_docs_extractor</code> es como un obrero especializado en una fábrica cuyo trabajo es transformar materias primas (documentos HTML) en un producto terminado (un string limpio y formateado). Este obrero usa una herramienta especial, <code>get_text</code>, como una máquina para procesar las materias primas en piezas utilizables, examinando cada componente de la materia prima <strong>pieza por pieza</strong>, y usa el mismo proceso repetidamente (<strong>recursividad</strong>) para descomponer los componentes en su forma más simple. Al final, ensambla todas las piezas procesadas en un producto completo y hace algunos refinamientos finales antes de que el producto salga de la fábrica.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> langchain_docs_extractor(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    html: <span class="bu">str</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    include_output_cells: <span class="bu">bool</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    path_url: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        html,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"lxml"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        parse_only<span class="op">=</span>SoupStrainer(name<span class="op">=</span><span class="st">"article"</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove all the tags that are not meaningful for the extraction.</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    SCAPE_TAGS <span class="op">=</span> [<span class="st">"nav"</span>, <span class="st">"footer"</span>, <span class="st">"aside"</span>, <span class="st">"script"</span>, <span class="st">"style"</span>]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    [tag.decompose() <span class="cf">for</span> tag <span class="kw">in</span> soup.find_all(SCAPE_TAGS)]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get_text() method returns the text of the tag and all its children.</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_text(tag: Tag) <span class="op">-&gt;</span> Generator[<span class="bu">str</span>, <span class="va">None</span>, <span class="va">None</span>]:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> child <span class="kw">in</span> tag.children:</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(child, Doctype):</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(child, NavigableString):</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">yield</span> child.get_text()</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(child, Tag):</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> child.name <span class="kw">in</span> [<span class="st">"h1"</span>, <span class="st">"h2"</span>, <span class="st">"h3"</span>, <span class="st">"h4"</span>, <span class="st">"h5"</span>, <span class="st">"h6"</span>]:</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                    text <span class="op">=</span> child.get_text(strip<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> text <span class="op">==</span> <span class="st">"API Reference:"</span>:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"&gt; **</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">**</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>                        ul <span class="op">=</span> child.find_next_sibling(<span class="st">"ul"</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> ul <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> <span class="bu">isinstance</span>(ul, Tag):</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                            ul.attrs[<span class="st">"api_reference"</span>] <span class="op">=</span> <span class="st">"true"</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"</span><span class="sc">{</span><span class="st">'#'</span> <span class="op">*</span> <span class="bu">int</span>(child.name[<span class="dv">1</span>:])<span class="sc">}</span><span class="ss"> "</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="cf">from</span> child.get_text(strip<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> path_url <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>                            link <span class="op">=</span> child.find(<span class="st">"a"</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">if</span> link <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>                                <span class="cf">yield</span> <span class="ss">f" [](/</span><span class="sc">{</span>path_url<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>link<span class="sc">.</span>get(<span class="st">'href'</span>)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"a"</span>:</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="ss">f"[</span><span class="sc">{</span>child<span class="sc">.</span>get_text(strip<span class="op">=</span><span class="va">False</span>)<span class="sc">}</span><span class="ss">](</span><span class="sc">{</span>child<span class="sc">.</span>get(<span class="st">'href'</span>)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"img"</span>:</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="ss">f"![</span><span class="sc">{</span>child<span class="sc">.</span>get(<span class="st">'alt'</span>, <span class="st">''</span>)<span class="sc">}</span><span class="ss">](</span><span class="sc">{</span>child<span class="sc">.</span>get(<span class="st">'src'</span>)<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="kw">in</span> [<span class="st">"strong"</span>, <span class="st">"b"</span>]:</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="ss">f"**</span><span class="sc">{</span>child<span class="sc">.</span>get_text(strip<span class="op">=</span><span class="va">False</span>)<span class="sc">}</span><span class="ss">**"</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="kw">in</span> [<span class="st">"em"</span>, <span class="st">"i"</span>]:</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="ss">f"_</span><span class="sc">{</span>child<span class="sc">.</span>get_text(strip<span class="op">=</span><span class="va">False</span>)<span class="sc">}</span><span class="ss">_"</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"br"</span>:</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"code"</span>:</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>                    parent <span class="op">=</span> child.find_parent()</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> parent <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> parent.name <span class="op">==</span> <span class="st">"pre"</span>:</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>                        classes <span class="op">=</span> parent.attrs.get(<span class="st">"class"</span>, <span class="st">""</span>)</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>                        language <span class="op">=</span> <span class="bu">next</span>(</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>                            <span class="bu">filter</span>(<span class="kw">lambda</span> x: re.match(<span class="vs">r"language-\w+"</span>, x), classes),</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>                            <span class="va">None</span>,</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>                        )</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> language <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>                            language <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">else</span>:</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>                            language <span class="op">=</span> language.split(<span class="st">"-"</span>)[<span class="dv">1</span>]</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> language <span class="kw">in</span> [<span class="st">"pycon"</span>, <span class="st">"text"</span>] <span class="kw">and</span> <span class="kw">not</span> include_output_cells:</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">continue</span></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>                        lines: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> []</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> span <span class="kw">in</span> child.find_all(<span class="st">"span"</span>, class_<span class="op">=</span><span class="st">"token-line"</span>):</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>                            line_content <span class="op">=</span> <span class="st">""</span>.join(</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>                                token.get_text() <span class="cf">for</span> token <span class="kw">in</span> span.find_all(<span class="st">"span"</span>)</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>                            lines.append(line_content)</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>                        code_content <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(lines)</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"```</span><span class="sc">{</span>language<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>code_content<span class="sc">}</span><span class="ch">\n</span><span class="ss">```</span><span class="ch">\n\n</span><span class="ss">"</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"`</span><span class="sc">{</span>child<span class="sc">.</span>get_text(strip<span class="op">=</span><span class="va">False</span>)<span class="sc">}</span><span class="ss">`"</span></span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"p"</span>:</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="cf">from</span> get_text(child)</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"ul"</span>:</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> <span class="st">"api_reference"</span> <span class="kw">in</span> child.attrs:</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> li <span class="kw">in</span> child.find_all(<span class="st">"li"</span>, recursive<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"&gt; - "</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="cf">from</span> get_text(li)</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span>:</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> li <span class="kw">in</span> child.find_all(<span class="st">"li"</span>, recursive<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"- "</span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="cf">from</span> get_text(li)</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"ol"</span>:</span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> i, li <span class="kw">in</span> <span class="bu">enumerate</span>(child.find_all(<span class="st">"li"</span>, recursive<span class="op">=</span><span class="va">False</span>)):</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"</span><span class="sc">{</span>i <span class="op">+</span> <span class="dv">1</span><span class="sc">}</span><span class="ss">. "</span></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="cf">from</span> get_text(li)</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"div"</span> <span class="kw">and</span> <span class="st">"tabs-container"</span> <span class="kw">in</span> child.attrs.get(</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"class"</span>, [<span class="st">""</span>]</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>                ):</span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>                    tabs <span class="op">=</span> child.find_all(<span class="st">"li"</span>, {<span class="st">"role"</span>: <span class="st">"tab"</span>})</span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>                    tab_panels <span class="op">=</span> child.find_all(<span class="st">"div"</span>, {<span class="st">"role"</span>: <span class="st">"tabpanel"</span>})</span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> tab, tab_panel <span class="kw">in</span> <span class="bu">zip</span>(tabs, tab_panels):</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>                        tab_name <span class="op">=</span> tab.get_text(strip<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="ss">f"</span><span class="sc">{</span>tab_name<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">yield</span> <span class="cf">from</span> get_text(tab_panel)</span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="op">==</span> <span class="st">"table"</span>:</span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>                    thead <span class="op">=</span> child.find(<span class="st">"thead"</span>)</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>                    header_exists <span class="op">=</span> <span class="bu">isinstance</span>(thead, Tag)</span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> header_exists:</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>                        headers <span class="op">=</span> thead.find_all(<span class="st">"th"</span>)</span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> headers:</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"| "</span></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" | "</span>.join(header.get_text() <span class="cf">for</span> header <span class="kw">in</span> headers)</span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" |</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"| "</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" | "</span>.join(<span class="st">"----"</span> <span class="cf">for</span> _ <span class="kw">in</span> headers)</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" |</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>                    tbody <span class="op">=</span> child.find(<span class="st">"tbody"</span>)</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>                    tbody_exists <span class="op">=</span> <span class="bu">isinstance</span>(tbody, Tag)</span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> tbody_exists:</span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> row <span class="kw">in</span> tbody.find_all(<span class="st">"tr"</span>):</span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">"| "</span></span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" | "</span>.join(</span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>                                cell.get_text(strip<span class="op">=</span><span class="va">True</span>) <span class="cf">for</span> cell <span class="kw">in</span> row.find_all(<span class="st">"td"</span>)</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">yield</span> <span class="st">" |</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elif</span> child.name <span class="kw">in</span> [<span class="st">"button"</span>]:</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">yield</span> <span class="cf">from</span> get_text(child)</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>    joined <span class="op">=</span> <span class="st">""</span>.join(get_text(soup))</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> re.sub(<span class="vs">r"\n\n+"</span>, <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>, joined).strip()</span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> load_documents(</span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>    extractor<span class="op">=</span>partial(</span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>        langchain_docs_extractor,</span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>        include_output_cells<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>docs_with_data_context <span class="op">=</span> loader.load()</span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(docs_with_data_context[<span class="dv">0</span>].page_content[:<span class="dv">3000</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Quickstart
+
+## Installation​
+
+To install LangChain run:
+
+Pip
+```bash
+pip install langchain
+```
+
+Conda
+```bash
+conda install langchain -c conda-forge
+```
+
+For more details, see our [Installation guide](/docs/get_started/installation.html).
+
+## Environment setup​
+
+Using LangChain will usually require integrations with one or more model providers, data stores, APIs, etc. For this example, we'll use OpenAI's model APIs.
+
+First we'll need to install their Python package:
+
+```bash
+pip install openai
+```
+
+Accessing the API requires an API key, which you can get by creating an account and heading [here](https://platform.openai.com/account/api-keys). Once we have a key we'll want to set it as an environment variable by running:
+
+```bash
+export OPENAI_API_KEY="..."
+```
+
+If you'd prefer not to set an environment variable you can pass the key in directly via the `openai_api_key` named parameter when initiating the OpenAI LLM class:
+
+```python
+from langchain.llms import OpenAI
+
+llm = OpenAI(openai_api_key="...")
+```
+
+## Building an application​
+
+Now we can start building our language model application. LangChain provides many modules that can be used to build language model applications.
+Modules can be used as stand-alones in simple applications and they can be combined for more complex use cases.
+
+The most common and most important chain that LangChain helps create contains three things:
+
+- LLM: The language model is the core reasoning engine here. In order to work with LangChain, you need to understand the different types of language models and how to work with them.
+- Prompt Templates: This provides instructions to the language model. This controls what the language model outputs, so understanding how to construct prompts and different prompting strategies is crucial.
+- Output Parsers: These translate the raw response from the LLM to a more workable format, making it easy to use the output downstream.
+
+In this getting started guide we will cover those three components by themselves, and then go over how to combine all of them.
+Understanding these concepts will set you up well for being able to use and customize LangChain applications.
+Most LangChain applications allow you to configure the LLM and/or the prompt used, so knowing how to take advantage of this will be a big enabler.
+
+## LLMs​
+
+There are two types of language models, which in LangChain are called:
+
+- LLMs: this is a language model which takes a string as input and returns a string
+- ChatModels: this is a language model which takes a list of messages as input and returns a message
+
+The input/output for LLMs is simple and easy to understand - a string.
+But what about ChatModels? The input there is a list of `ChatMessage`s, and the output is a single `ChatMessage`.
+A `ChatMessage` has two required components:
+
+- `content`: This is the content of the message.
+- `role`: This is the role of the entity from which the `ChatMessage` is coming from.
+
+LangChain provides several objects to easily disting</code></pre>
+</div>
+</div>
+<p>El archivo de salida es ahora en formato Markdown, lo que permite visualizarlo en cualquier editor de texto o en GitHub, ofreciendo una estructura de la información más clara y accesible. Esta organización permite realizar cortes de texto con mayor precisión, facilitando así la obtención de información más pertinente y relevante.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Markdown(docs_with_data_context[<span class="dv">0</span>].page_content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="quickstart" class="level1 cell-output cell-output-display" data-execution_count="6">
+<h1>Quickstart</h1>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation​</h2>
+<p>To install LangChain run:</p>
+<p>Pip</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install langchain</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Conda</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install langchain <span class="at">-c</span> conda-forge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For more details, see our <a href="../docs/get_started/installation.html">Installation guide</a>.</p>
+</section>
+<section id="environment-setup" class="level2">
+<h2 class="anchored" data-anchor-id="environment-setup">Environment setup​</h2>
+<p>Using LangChain will usually require integrations with one or more model providers, data stores, APIs, etc. For this example, we’ll use OpenAI’s model APIs.</p>
+<p>First we’ll need to install their Python package:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install openai</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Accessing the API requires an API key, which you can get by creating an account and heading <a href="https://platform.openai.com/account/api-keys">here</a>. Once we have a key we’ll want to set it as an environment variable by running:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OPENAI_API_KEY</span><span class="op">=</span><span class="st">"..."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you’d prefer not to set an environment variable you can pass the key in directly via the <code>openai_api_key</code> named parameter when initiating the OpenAI LLM class:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.llms <span class="im">import</span> OpenAI</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>llm <span class="op">=</span> OpenAI(openai_api_key<span class="op">=</span><span class="st">"..."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="building-an-application" class="level2">
+<h2 class="anchored" data-anchor-id="building-an-application">Building an application​</h2>
+<p>Now we can start building our language model application. LangChain provides many modules that can be used to build language model applications. Modules can be used as stand-alones in simple applications and they can be combined for more complex use cases.</p>
+<p>The most common and most important chain that LangChain helps create contains three things:</p>
+<ul>
+<li>LLM: The language model is the core reasoning engine here. In order to work with LangChain, you need to understand the different types of language models and how to work with them.</li>
+<li>Prompt Templates: This provides instructions to the language model. This controls what the language model outputs, so understanding how to construct prompts and different prompting strategies is crucial.</li>
+<li>Output Parsers: These translate the raw response from the LLM to a more workable format, making it easy to use the output downstream.</li>
+</ul>
+<p>In this getting started guide we will cover those three components by themselves, and then go over how to combine all of them. Understanding these concepts will set you up well for being able to use and customize LangChain applications. Most LangChain applications allow you to configure the LLM and/or the prompt used, so knowing how to take advantage of this will be a big enabler.</p>
+</section>
+<section id="llms" class="level2">
+<h2 class="anchored" data-anchor-id="llms">LLMs​</h2>
+<p>There are two types of language models, which in LangChain are called:</p>
+<ul>
+<li>LLMs: this is a language model which takes a string as input and returns a string</li>
+<li>ChatModels: this is a language model which takes a list of messages as input and returns a message</li>
+</ul>
+<p>The input/output for LLMs is simple and easy to understand - a string. But what about ChatModels? The input there is a list of <code>ChatMessage</code>s, and the output is a single <code>ChatMessage</code>. A <code>ChatMessage</code> has two required components:</p>
+<ul>
+<li><code>content</code>: This is the content of the message.</li>
+<li><code>role</code>: This is the role of the entity from which the <code>ChatMessage</code> is coming from.</li>
+</ul>
+<p>LangChain provides several objects to easily distinguish between different roles:</p>
+<ul>
+<li><code>HumanMessage</code>: A <code>ChatMessage</code> coming from a human/user.</li>
+<li><code>AIMessage</code>: A <code>ChatMessage</code> coming from an AI/assistant.</li>
+<li><code>SystemMessage</code>: A <code>ChatMessage</code> coming from the system.</li>
+<li><code>FunctionMessage</code>: A <code>ChatMessage</code> coming from a function call.</li>
+</ul>
+<p>If none of those roles sound right, there is also a <code>ChatMessage</code> class where you can specify the role manually. For more information on how to use these different messages most effectively, see our prompting guide.</p>
+<p>LangChain provides a standard interface for both, but it’s useful to understand this difference in order to construct prompts for a given language model. The standard interface that LangChain provides has two methods:</p>
+<ul>
+<li><code>predict</code>: Takes in a string, returns a string</li>
+<li><code>predict_messages</code>: Takes in a list of messages, returns a message.</li>
+</ul>
+<p>Let’s see how to work with these different types of models and these different types of inputs. First, let’s import an LLM and a ChatModel.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.llms <span class="im">import</span> OpenAI</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> ChatOpenAI</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>llm <span class="op">=</span> OpenAI()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>chat_model <span class="op">=</span> ChatOpenAI()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>llm.predict(<span class="st">"hi!"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="st">"Hi"</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>chat_model.predict(<span class="st">"hi!"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="st">"Hi"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>OpenAI</code> and <code>ChatOpenAI</code> objects are basically just configuration objects. You can initialize them with parameters like <code>temperature</code> and others, and pass them around.</p>
+<p>Next, let’s use the <code>predict</code> method to run over a string input.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"What would be a good company name for a company that makes colorful socks?"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>llm.predict(text)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; Feetful of Fun</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>chat_model.predict(text)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; Socks O'Color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, let’s use the <code>predict_messages</code> method to run over a list of messages.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.schema <span class="im">import</span> HumanMessage</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"What would be a good company name for a company that makes colorful socks?"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [HumanMessage(content<span class="op">=</span>text)]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>llm.predict_messages(messages)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; Feetful of Fun</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>chat_model.predict_messages(messages)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; Socks O'Color</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For both these methods, you can also pass in parameters as key word arguments. For example, you could pass in <code>temperature=0</code> to adjust the temperature that is used from what the object was configured with. Whatever values are passed in during run time will always override what the object was configured with.</p>
+</section>
+<section id="prompt-templates" class="level2">
+<h2 class="anchored" data-anchor-id="prompt-templates">Prompt templates​</h2>
+<p>Most LLM applications do not pass user input directly into an LLM. Usually they will add the user input to a larger piece of text, called a prompt template, that provides additional context on the specific task at hand.</p>
+<p>In the previous example, the text we passed to the model contained instructions to generate a company name. For our application, it’d be great if the user only had to provide the description of a company/product, without having to worry about giving the model instructions.</p>
+<p>PromptTemplates help with exactly this! They bundle up all the logic for going from user input into a fully formatted prompt. This can start off very simple - for example, a prompt to produce the above string would just be:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.prompts <span class="im">import</span> PromptTemplate</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> PromptTemplate.from_template(<span class="st">"What is a good name for a company that makes </span><span class="sc">{product}</span><span class="st">?"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>prompt.<span class="bu">format</span>(product<span class="op">=</span><span class="st">"colorful socks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="pycon"><code>What is a good name for a company that makes colorful socks?</code></pre>
+<p>However, the advantages of using these over raw string formatting are several. You can “partial” out variables - e.g.&nbsp;you can format only some of the variables at a time. You can compose them together, easily combining different templates into a single prompt. For explanations of these functionalities, see the <a href="../docs/modules/model_io/prompts">section on prompts</a> for more detail.</p>
+<p>PromptTemplates can also be used to produce a list of messages. In this case, the prompt not only contains information about the content, but also each message (its role, its position in the list, etc) Here, what happens most often is a ChatPromptTemplate is a list of ChatMessageTemplates. Each ChatMessageTemplate contains instructions for how to format that ChatMessage - its role, and then also its content. Let’s take a look at this below:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.prompts.chat <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>template <span class="op">=</span> <span class="st">"You are a helpful assistant that translates </span><span class="sc">{input_language}</span><span class="st"> to </span><span class="sc">{output_language}</span><span class="st">."</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>human_template <span class="op">=</span> <span class="st">"</span><span class="sc">{text}</span><span class="st">"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>chat_prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"system"</span>, template),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"human"</span>, human_template),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>chat_prompt.format_messages(input_language<span class="op">=</span><span class="st">"English"</span>, output_language<span class="op">=</span><span class="st">"French"</span>, text<span class="op">=</span><span class="st">"I love programming."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="pycon"><code>[
+    SystemMessage(content="You are a helpful assistant that translates English to French.", additional_kwargs={}),
+    HumanMessage(content="I love programming.")
+]</code></pre>
+<p>ChatPromptTemplates can also be constructed in other ways - see the <a href="../docs/modules/model_io/prompts">section on prompts</a> for more detail.</p>
+</section>
+<section id="output-parsers" class="level2">
+<h2 class="anchored" data-anchor-id="output-parsers">Output parsers​</h2>
+<p>OutputParsers convert the raw output of an LLM into a format that can be used downstream. There are few main type of OutputParsers, including:</p>
+<ul>
+<li>Convert text from LLM -&gt; structured information (e.g.&nbsp;JSON)</li>
+<li>Convert a ChatMessage into just a string</li>
+<li>Convert the extra information returned from a call besides the message (like OpenAI function invocation) into a string.</li>
+</ul>
+<p>For full information on this, see the <a href="../docs/modules/model_io/output_parsers">section on output parsers</a></p>
+<p>In this getting started guide, we will write our own output parser - one that converts a comma separated list into a list.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.schema <span class="im">import</span> BaseOutputParser</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CommaSeparatedListOutputParser(BaseOutputParser):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse the output of an LLM call to a comma-separated list."""</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> parse(<span class="va">self</span>, text: <span class="bu">str</span>):</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Parse the output of an LLM call."""</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> text.strip().split(<span class="st">", "</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>CommaSeparatedListOutputParser().parse(<span class="st">"hi, bye"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; ['hi', 'bye']</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="prompttemplate-llm-outputparser" class="level2">
+<h2 class="anchored" data-anchor-id="prompttemplate-llm-outputparser">PromptTemplate + LLM + OutputParser​</h2>
+<p>We can now combine all these into one chain. This chain will take input variables, pass those to a prompt template to create a prompt, pass the prompt to a language model, and then pass the output through an (optional) output parser. This is a convenient way to bundle up a modular piece of logic. Let’s see it in action!</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> ChatOpenAI</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.prompts.chat <span class="im">import</span> ChatPromptTemplate</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.schema <span class="im">import</span> BaseOutputParser</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CommaSeparatedListOutputParser(BaseOutputParser):</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Parse the output of an LLM call to a comma-separated list."""</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> parse(<span class="va">self</span>, text: <span class="bu">str</span>):</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Parse the output of an LLM call."""</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> text.strip().split(<span class="st">", "</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>template <span class="op">=</span> <span class="st">"""You are a helpful assistant who generates comma separated lists.</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="st">A user will pass in a category, and you should generate 5 objects in that category in a comma separated list.</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="st">ONLY return a comma separated list, and nothing more."""</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>human_template <span class="op">=</span> <span class="st">"</span><span class="sc">{text}</span><span class="st">"</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>chat_prompt <span class="op">=</span> ChatPromptTemplate.from_messages([</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"system"</span>, template),</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"human"</span>, human_template),</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> chat_prompt <span class="op">|</span> ChatOpenAI() <span class="op">|</span> CommaSeparatedListOutputParser()</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>chain.invoke({<span class="st">"text"</span>: <span class="st">"colors"</span>})</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt; ['red', 'blue', 'green', 'yellow', 'orange']</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note that we are using the <code>|</code> syntax to join these components together. This <code>|</code> syntax is called the LangChain Expression Language. To learn more about this syntax, read the documentation <a href="../docs/expression_language">here</a>.</p>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps​</h2>
+<p>This is it! We’ve now gone over how to create the core building block of LangChain applications. There is a lot more nuance in all these components (LLMs, prompts, output parsers) and a lot more different components to learn about as well. To continue on your journey:</p>
+<ul>
+<li><a href="../docs/modules/model_io">Dive deeper</a> into LLMs, prompts, and output parsers</li>
+<li>Learn the other <a href="../docs/modules">key components</a></li>
+<li>Read up on <a href="../docs/expression_language">LangChain Expression Language</a> to learn how to chain these components together</li>
+<li>Check out our <a href="../docs/guides">helpful guides</a> for detailed walkthroughs on particular topics</li>
+<li>Explore <a href="../docs/use_cases">end-to-end use cases</a></li>
+</ul>
+</section>
+</section>
+</div>
+</section>
+</section>
+<section id="pdf-docx-doc" class="level2">
+<h2 class="anchored" data-anchor-id="pdf-docx-doc">PDF / DOCX / DOC</h2>
+<section id="dataset-de-prueba" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-de-prueba">Dataset de prueba</h3>
+<p>En este ejemplo, vamos a emplear algunos archivos de muestra proporcionados por <a href="https://www.docugami.com/">Docugami</a>. Dichos archivos representan el producto de la extracción de texto de documentos auténticos, en particular, de archivos PDF relativos a contratos de arrendamiento comercial.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lease_data_dir <span class="op">=</span> pathlib.Path(<span class="st">"../data/docugami/commercial_lease"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>lease_files <span class="op">=</span> <span class="bu">list</span>(lease_data_dir.glob(<span class="st">"*.xml"</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>lease_files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>[PosixPath('../data/docugami/commercial_lease/TruTone Lane 6.xml'),
+ PosixPath('../data/docugami/commercial_lease/TruTone Lane 5.xml'),
+ PosixPath('../data/docugami/commercial_lease/TruTone Lane 4.xml'),
+ PosixPath('../data/docugami/commercial_lease/TruTone Lane 1.xml'),
+ PosixPath('../data/docugami/commercial_lease/TruTone Lane 3.xml'),
+ PosixPath('../data/docugami/commercial_lease/TruTone Lane 2.xml')]</code></pre>
+</div>
+</div>
+<p>Ahora, carguemos los documentos de muestra y veamos qué propiedades tienen.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> DocugamiLoader(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    docset_id<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    access_token<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    document_ids<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    file_paths<span class="op">=</span>lease_files,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>lease_docs <span class="op">=</span> loader.load()</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(lease_docs)<span class="sc">}</span><span class="ss"> documents."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>'Loaded 1108 documents.'</code></pre>
+</div>
+</div>
+<p>La metadata obtenida del documento incluye los siguientes elementos:</p>
+<ul>
+<li><code>id</code>, <code>source_id</code> y <code>name</code>: Estos campos identifican de manera unívoca al documento y al fragmento de texto que se ha extraído de él.</li>
+<li><code>xpath</code>: Es el <code>XPath</code> correspondiente dentro de la representación XML del documento. Se refiere específicamente al fragmento extraído. Este campo es útil para referenciar directamente las citas del fragmento real dentro del documento XML.</li>
+<li><code>structure</code>: Incluye los atributos estructurales del fragmento, tales como <code>p</code>, <code>h1</code>, <code>div</code>, <code>table</code>, <code>td</code>, entre otros. Es útil para filtrar ciertos tipos de fragmentos, en caso de que el usuario los requiera.</li>
+<li><code>tag</code>: Representa la etiqueta semántica para el fragmento. Se genera utilizando diversas técnicas, tanto generativas como extractivas, para determinar el significado del fragmento en cuestión.</li>
+</ul>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lease_docs[<span class="dv">0</span>].metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>{'xpath': '/dg:chunk/docset:OFFICELEASEAGREEMENT-section/docset:OFFICELEASEAGREEMENT-section/docset:OFFICELEASEAGREEMENT/docset:Lease',
+ 'id': 'TruTone Lane 6.xml',
+ 'name': 'TruTone Lane 6.xml',
+ 'source': 'TruTone Lane 6.xml',
+ 'structure': 'p',
+ 'tag': 'Lease'}</code></pre>
+</div>
+</div>
+<p><code>Docugami</code> también posee la capacidad de asistir en la extracción de metadatos específicos para cada <code>chunk</code> o fragmento de nuestros documentos. A continuación, se presenta un ejemplo de cómo se extraen y representan estos metadatos:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="er">'xpath'</span><span class="fu">:</span> <span class="er">'/docset:OFFICELEASEAGREEMENT-section/docset:OFFICELEASEAGREEMENT/docset:LeaseParties'</span><span class="fu">,</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="er">'id'</span><span class="fu">:</span> <span class="er">'v1bvgaozfkak'</span><span class="fu">,</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="er">'source'</span><span class="fu">:</span> <span class="er">'TruTone</span> <span class="er">Lane</span> <span class="dv">2</span><span class="er">.docx'</span><span class="fu">,</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="er">'structure'</span><span class="fu">:</span> <span class="er">'p'</span><span class="fu">,</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="er">'tag'</span><span class="fu">:</span> <span class="er">'LeaseParties'</span><span class="fu">,</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="er">'Lease</span> <span class="er">Date'</span><span class="fu">:</span> <span class="er">'April</span> <span class="dv">24</span> <span class="er">\n\n</span> <span class="fu">,</span><span class="er">'</span><span class="fu">,</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="er">'Landlord'</span><span class="fu">:</span> <span class="er">'BUBBA</span> <span class="er">CENTER</span> <span class="er">PARTNERSHIP'</span><span class="fu">,</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="er">'Tenant'</span><span class="fu">:</span> <span class="er">'Truetone</span> <span class="er">Lane</span> <span class="er">LLC'</span><span class="fu">,</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="er">'Lease</span> <span class="er">Parties'</span><span class="fu">:</span> <span class="er">'Este</span> <span class="er">ACUERDO</span> <span class="er">DE</span> <span class="er">ARRENDAMIENTO</span> <span class="er">DE</span> <span class="er">OFICINA</span> <span class="er">(el</span> <span class="st">"Contrato"</span><span class="er">)</span> <span class="er">es</span> <span class="er">celebrado</span> <span class="er">por</span> <span class="er">y</span> <span class="er">entre</span> <span class="er">BUBBA</span> <span class="er">CENTER</span> <span class="er">PARTNERSHIP</span> <span class="er">(</span><span class="st">"Arrendador"</span><span class="er">)</span><span class="fu">,</span> <span class="er">y</span> <span class="er">Truetone</span> <span class="er">Lane</span> <span class="er">LLC</span><span class="fu">,</span> <span class="er">una</span> <span class="er">compañía</span> <span class="er">de</span> <span class="er">responsabilidad</span> <span class="er">limitada</span> <span class="er">de</span> <span class="er">Delaware</span> <span class="er">(</span><span class="dt">"Arrendatario"</span><span class="er">).'</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Los metadatos adicionales, como los mostrados arriba, pueden ser extremadamente útiles cuando se implementan <code>self-retrievers</code>, los cuales serán explorados adetalle más adelante.</p>
+</section>
+<section id="cargar-tus-documentos" class="level3">
+<h3 class="anchored" data-anchor-id="cargar-tus-documentos">Cargar tus documentos</h3>
+<p>Si prefieres utilizar tus propios documentos, puedes cargarlos a través de la interfaz gráfica de <a href="https://www.docugami.com/">Docugami</a>. Una vez cargados, necesitarás asignar cada uno a un <code>docset</code>. Un <code>docset</code> es un conjunto de documentos que presentan una estructura análoga. Por ejemplo, todos los contratos de arrendamiento comercial por lo general poseen estructuras similares, por lo que pueden ser agrupados en un único <code>docset</code>.</p>
+<p>Después de crear tu <code>docset</code>, los documentos cargados serán procesados y estarán disponibles para su acceso mediante la API de <code>Docugami</code>.</p>
+<p>Para recuperar los <code>ids</code> de tus documentos y de sus correspondientes <code>docsets</code>, puedes ejecutar el siguiente comando:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--header</span> <span class="st">"Authorization: Bearer {YOUR_DOCUGAMI_TOKEN}"</span> <span class="dt">\</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  https://api.docugami.com/v1preview1/documents</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Este comando te facilitará el acceso a la información relevante, optimizando así la administración y organización de tus documentos dentro de <code>Docugami</code>.</p>
+<p>Una vez hayas extraído los <code>ids</code> de tus documentos o de los <code>docsets</code>, podrás emplearlos para acceder a la información de tus documentos utilizando el <code>DocugamiLoader</code> de <code>Langchain</code>. Esto te permitirá manipular y gestionar tus documentos dentro de tu aplicación.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> DocugamiLoader(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    docset_id<span class="op">=</span><span class="st">"xpfpiyl7cep2"</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    document_ids<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    file_paths<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>papers_docs <span class="op">=</span> loader.load()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lost_in_the_middle_paper_docs <span class="op">=</span> [</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    doc <span class="cf">for</span> doc <span class="kw">in</span> papers_docs <span class="cf">if</span> doc.metadata[<span class="st">"source"</span>] <span class="op">==</span> <span class="st">"2307.03172.pdf"</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> lost_in_the_middle_paper_docs:</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(doc.metadata[<span class="st">"tag"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>LostintheMiddle
+chunk
+chunk
+Abstract
+chunk
+AnImportantAndFlexibleBuildingBlock
+TheseUse-cases
+chunk
+chunk
+chunk
+Figure1
+chunk
+Transformers
+Extended-contextLanguageModels
+TrolledExperiments
+ADistinctiveU-shapedPerformance
+_5-turboS
+LanguageModels
+LanguageModels
+ACaseStudy
+_2LanguageModels
+IncreasingLanguageModelMaximumContext
+OurGoal
+chunk
+ModelPerformance
+OurMulti-documentQuestion
+ThisTask
+Naturalquestions-open
+RandomDocuments
+AHigh-qualityAnswer
+Asian
+chunk
+chunk
+AHigh-qualityAnswer
+chunk
+Document
+Norwegian
+Question
+chunk
+Figure3
+TheInputContextLength
+Kandpal
+SearchResults
+AHigh-qualityAnswer
+chunk
+Asian
+Question
+chunk
+Figure4
+TheNaturalquestionsAnnotations
+chunk
+AMaximumContextLength
+chunk
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+_7-cell
+ExtracttheValueCorrespondingtotheSpecifiedKeyintheJSONObjectBelowVa
+td
+ExtracttheValueCorrespondingtotheSpecifiedKeyintheJSONObjectBelowEx
+ExtracttheValueCorrespondingtotheSpecifiedKeyintheJSONObjectBelow
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+Figure9-cell
+td
+td
+td
+The-art
+AMaximumContextLength
+ClosedModels
+Gpt-35-turbo
+TheAnthropicApi
+InputContexts
+ModelPerformance
+ASubset
+Figure6
+Contexts
+ModelPerformance
+PerformanceDecrease
+Extended-contextModels
+LanguageModels
+OurSyntheticKey-valueRetrievalTask
+OurSyntheticKey-valueRetrievalTask
+Figure8
+PresentPotentialConfounders
+Key-valueRetrievalPerformance
+chunk
+TheSyntheticKey-valueRetrievalTask
+TheKey-valueRetrievalTask
+The140Key-valueSetting
+chunk
+OurMulti-documentQuestion
+chunk
+TheOpenModels
+OurExperiments
+tr
+chunk
+TheEnd
+TheSameSetting
+TheModels
+Mpt-30bMpt-30b-instruct
+chunk
+Formation
+TheseObservations
+chunk
+PracticalSettings
+Models
+Figure
+td
+chunk
+chunk
+ARichLine
+chunk
+ThePioneeringWork
+TheU-shapedCurve
+ASeries
+Instruction-tuning
+SewonMin
+AviArampatzis
+IzBeltagy
+HyungWonChung
+ZihangDai
+MichaøDaniluk
+TriDao
+chunk
+chunk
+DanielYFu
+AlbertGu
+chunk
+Long-textUnderstanding
+GautierIzacard
+GautierIzacard
+NikhilKandpal
+UrvashiKhandelwal
+chunk
+Field
+KentonLee
+DachengLi
+AlexMallen
+SewonMin
+BennetBMurdockJr
+JoeOConnor
+DimitrisPapailiopoulos
+chunk
+HaoPeng
+FabioPetroni
+MichaelPoli
+OfirPress
+OfirPress
+GuanghuiQin
+chunk
+IneLee
+YoavLevine
+chunk
+chunk
+ChinnadhuraiSankar
+TimoSchick
+chunk
+OmerLevy
+UriShaham
+VatsalSharan
+WeijiaShi
+chunk
+chunk
+KalpeshKrishna
+YiTay
+YiTay
+MostafaDehghani
+HugoTouvron
+AshishVaswani
+SinongWang
+chunk
+chunk
+chunk
+chunk
+ManzilZaheer
+chunk
+PastWork
+chunk
+chunk
+td
+td
+Figure15
+Multi-documentQuestion
+chunk
+chunk
+td
+td
+chunk
+OurPrompt
+chunk
+ASubset
+chunk
+Figure17
+_1st5th10th15th20thPosition
+td
+chunk
+Table
+td
+td
+td
+td
+td
+Table1
+Table
+td
+td
+td
+td
+td
+Table2
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+Table3
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+Table4
+chunk
+ModelPerformance
+td
+td
+td
+td
+td
+td
+td
+Table
+td
+td
+td
+td
+td
+td
+td
+Table
+td
+td
+td
+td
+td
+td
+td
+td
+td
+td
+Table</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/02_context_aware_text_splitting.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fragmentación de texto con base en el contexto</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

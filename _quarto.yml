@@ -1,0 +1,37 @@
+project:
+  type: book
+
+book:
+  title: "Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain"
+  author: "Jesús Vélez Santiago"
+  date: "10/01/2023"
+  repo-url: https://github.com/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course
+  sharing: [twitter, linkedin]
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - part: "Procesamiento de documentos"
+      chapters:
+        - ./notebooks/01_context_aware_text_extraction.ipynb
+        - ./notebooks/02_context_aware_text_splitting.ipynb
+        - ./notebooks/03_indexing_vectors.ipynb
+    - part: "Recuperación de información"
+      chapters:
+      - ./notebooks/04_parent_retrievers.ipynb
+      - ./notebooks/05_self_retrievers.ipynb
+      - ./notebooks/06_multi_query_retriever.ipynb
+      - ./notebooks/07_ensemble_retriever.ipynb
+    - part: "Re-rankeo"
+      chapters:
+      - ./notebooks/08_semantic_reranking.ipynb
+      - ./notebooks/09_maximal_marginal_relevance_reranking.ipynb
+      - ./notebooks/10_lost_in_the_middle_reranking.ipynb
+    - part: "Todo junto"
+    - ./notebooks/11_everything_together.ipynb
+
+format:
+  html:
+    theme: 
+      light: cosmo
+      dark: darkly
+    code-copy: true

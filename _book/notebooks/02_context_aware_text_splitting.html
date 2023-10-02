@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain - Fragmentación de texto con base en el contexto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/03_indexing_vectors.html" rel="next">
+<link href="../notebooks/01_context_aware_text_extraction.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/01_context_aware_text_extraction.html">Procesamiento de documentos</a></li><li class="breadcrumb-item"><a href="../notebooks/02_context_aware_text_splitting.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fragmentación de texto con base en el contexto</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=|url|">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=|url|">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+    </div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Procesamiento de documentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/01_context_aware_text_extraction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extracción de texto con base en el contexto</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/02_context_aware_text_splitting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Fragmentación de texto con base en el contexto</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/03_indexing_vectors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Indexación de vectores</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Recuperación de información</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/04_parent_retrievers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parent retrievers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/05_self_retrievers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Self Retrievers</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/06_multi_query_retriever.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multi-query retriever</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/07_ensemble_retriever.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ensemble Retriever</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Re-rankeo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/08_semantic_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Re-ranking semántico</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/09_maximal_marginal_relevance_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Re-ranking por relevancia marginal máxima (MMR)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/10_lost_in_the_middle_reranking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Perdido en el medio: El problema con los contextos largos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Todo junto</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/11_everything_together.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Conceptos aprendidos</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#librerías" id="toc-librerías" class="nav-link active" data-scroll-target="#librerías">Librerías</a></li>
+  <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a></li>
+  <li><a href="#fragmentación-de-texto-sin-tener-en-cuenta-el-contexto" id="toc-fragmentación-de-texto-sin-tener-en-cuenta-el-contexto" class="nav-link" data-scroll-target="#fragmentación-de-texto-sin-tener-en-cuenta-el-contexto">Fragmentación de texto sin tener en cuenta el contexto</a></li>
+  <li><a href="#framentación-de-texto-con-contexto-de-distrubución-de-tokens" id="toc-framentación-de-texto-con-contexto-de-distrubución-de-tokens" class="nav-link" data-scroll-target="#framentación-de-texto-con-contexto-de-distrubución-de-tokens">Framentación de texto con contexto de distrubución de <code>tokens</code></a>
+  <ul class="collapse">
+  <li><a href="#funciones-de-apoyo" id="toc-funciones-de-apoyo" class="nav-link" data-scroll-target="#funciones-de-apoyo">Funciones de apoyo</a></li>
+  <li><a href="#estadísticas-de-tokens-en-los-textos" id="toc-estadísticas-de-tokens-en-los-textos" class="nav-link" data-scroll-target="#estadísticas-de-tokens-en-los-textos">Estadísticas de tokens en los textos</a></li>
+  <li><a href="#visualización-de-distribución-de-tokens-sin-outliers" id="toc-visualización-de-distribución-de-tokens-sin-outliers" class="nav-link" data-scroll-target="#visualización-de-distribución-de-tokens-sin-outliers">Visualización de distribución de tokens sin outliers</a></li>
+  <li><a href="#framentación-de-texto-con-base-en-la-distribución-de-tokens" id="toc-framentación-de-texto-con-base-en-la-distribución-de-tokens" class="nav-link" data-scroll-target="#framentación-de-texto-con-base-en-la-distribución-de-tokens">Framentación de texto con base en la distribución de tokens</a></li>
+  </ul></li>
+  <li><a href="#framentación-de-texto-con-contexto" id="toc-framentación-de-texto-con-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-con-contexto">Framentación de texto con contexto</a>
+  <ul class="collapse">
+  <li><a href="#framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" id="toc-framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Framentación de texto con base en una especificación de lenguaje como contexto</a></li>
+  <li><a href="#framentación-de-texto-utilizando-encabezados-como-contexto" id="toc-framentación-de-texto-utilizando-encabezados-como-contexto" class="nav-link" data-scroll-target="#framentación-de-texto-utilizando-encabezados-como-contexto">Framentación de texto utilizando encabezados como contexto</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fragmentación de texto con base en el contexto</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Una vez que se ha extraído el texto de un documento, es posible que se requiera dividirlo en fragmentos más pequeños, como oraciones o palabras, para su posterior análisis. En este notebook se presentan algunas técnicas para realizar esta tarea con base en el contexto.</p>
+<section id="librerías" class="level2">
+<h2 class="anchored" data-anchor-id="librerías">Librerías</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tiktoken</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.schema <span class="im">import</span> Document</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter <span class="im">import</span> (</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    Language,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    MarkdownHeaderTextSplitter,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    RecursiveCharacterTextSplitter,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.langchain_docs_loader <span class="im">import</span> LangchainDocsLoader</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Utilizaremos la función <code>print_example_doc_splits_from_docs</code> a través de este notebook para imprimir el contenido de los documentos cuya metadata <code>source</code> coinsida con el valor proporcionado.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_example_doc_splits_from_docs(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    docs: <span class="bu">list</span>[Document],</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    source: <span class="bu">str</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> doc <span class="kw">in</span> docs:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> doc.metadata[<span class="st">"source"</span>] <span class="op">==</span> source:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f" </span><span class="sc">{</span>doc<span class="sc">.</span>metadata[<span class="st">'source'</span>]<span class="sc">}</span><span class="ss"> "</span>.center(<span class="dv">80</span>, <span class="st">"="</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(doc.page_content)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>print_split_for_lcle <span class="op">=</span> partial(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    print_example_doc_splits_from_docs,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    source<span class="op">=</span><span class="st">"https://python.langchain.com/docs/expression_language/interface"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="carga-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="carga-de-datos">Carga de datos</h2>
+<p>De aquí en adelante, utilizaremos el conjunto de documentos extraídos en el notebook <a href="../notebooks/01_context_aware_text_extraction.html">01_context_aware_text_extraction.ipynb</a>.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> LangchainDocsLoader(include_output_cells<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> loader.load()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(docs)<span class="sc">}</span><span class="ss"> documents"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>'Loaded 962 documents'</code></pre>
+</div>
+</div>
+</section>
+<section id="fragmentación-de-texto-sin-tener-en-cuenta-el-contexto" class="level2">
+<h2 class="anchored" data-anchor-id="fragmentación-de-texto-sin-tener-en-cuenta-el-contexto">Fragmentación de texto sin tener en cuenta el contexto</h2>
+<p>La forma más sencilla de fragmentar texto es utilizando la función <code>split</code> de Python. Esta función recibe como parámetro un caracter o cadena de caracteres que se utilizará como separador. Por ejemplo, para fragmentar un texto en oraciones, se puede utilizar el caracter <code>.</code> como separador.</p>
+<p>Sin embargo, podemos ir un poco más allá y utilizar <code>RecursiveCharacterTextSplitter()</code> de langchain para dividir texto observando caracteres de forma recursiva. Esta herramienta intenta, de manera recursiva, dividir el texto por diferentes caracteres para encontrar uno que funcione, permitiendo así una fragmentación de texto más precisa y adaptable a diferentes contextos y formatos de texto, aunque no tenga en cuenta el contexto semántico del mismo.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>text_splitter_without_context <span class="op">=</span> RecursiveCharacterTextSplitter()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>splitted_documents_without_context <span class="op">=</span> text_splitter_without_context.split_documents(docs)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>print_split_for_lcle(splitted_documents_without_context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+# Interface
+
+In an effort to make it as easy as possible to create custom chains, we've implemented a ["Runnable"](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.Runnable.html#langchain.schema.runnable.Runnable) protocol that most components implement. This is a standard interface with a few different methods, which makes it easy to define custom chains as well as making it possible to invoke them in a standard way. The standard interface exposed includes:
+
+- `stream`: stream back chunks of the response
+- `invoke`: call the chain on an input
+- `batch`: call the chain on a list of inputs
+
+These also have corresponding async methods:
+
+- `astream`: stream back chunks of the response async
+- `ainvoke`: call the chain on an input async
+- `abatch`: call the chain on a list of inputs async
+
+The type of the input varies by component:
+
+| Component | Input Type |
+| ---- | ---- |
+| Prompt | Dictionary |
+| Retriever | Single string |
+| Model | Single string, list of chat messages or a PromptValue |
+
+The output type also varies by component:
+
+| Component | Output Type |
+| ---- | ---- |
+| LLM | String |
+| ChatModel | ChatMessage |
+| Prompt | PromptValue |
+| Retriever | List of documents |
+
+Let's take a look at these methods! To do so, we'll create a super simple PromptTemplate + ChatModel chain.
+
+```python
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+```
+
+&gt; **API Reference:**
+&gt; - [ChatPromptTemplate](https://api.python.langchain.com/en/latest/prompts/langchain.prompts.chat.ChatPromptTemplate.html)
+&gt; - [ChatOpenAI](https://api.python.langchain.com/en/latest/chat_models/langchain.chat_models.openai.ChatOpenAI.html)
+
+```python
+model = ChatOpenAI()
+```
+
+```python
+prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+```
+
+```python
+chain = prompt | model
+```
+
+## Stream​
+
+```python
+for s in chain.stream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Sure, here's a bear-themed joke for you:
+    
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Invoke​
+
+```python
+chain.invoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Why don't bears wear shoes?\n\nBecause they already have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Batch​
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears ever wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+You can set the number of concurrent requests by using the `max_concurrency` parameter
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}], config={"max_concurrency": 5})
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+## Async Stream​
+
+```python
+async for s in chain.astream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Async Invoke​
+
+```python
+await chain.ainvoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Sure, here you go:\n\nWhy don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Async Batch​
+
+```python
+await chain.abatch([{"topic": "bears"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)]
+```
+
+## Parallelism​
+
+Let's take a look at how LangChain Expression Language support parralel requests as much as possible. For example, when using a RunnableMapping (often written as a dictionary) it executes each element in parralel.
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+from langchain.schema.runnable import RunnableMap
+chain1 = ChatPromptTemplate.from_template("tell me a joke about {topic}") | model
+chain2 = ChatPromptTemplate.from_template("write a short (2 line) poem about {topic}") | model
+combined = RunnableMap({
+    "joke": chain1,
+    "poem": chain2,
+})
+```
+
+&gt; **API Reference:**
+&gt; - [RunnableMap](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.base.RunnableMap.html)
+
+```python
+chain1.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 31.7 ms, sys: 8.59 ms, total: 40.3 ms
+    Wall time: 1.05 s
+
+    AIMessage(content="Why don't bears like fast food?\n\nBecause they can't catch it!", additional_kwargs={}, example=False)
+```
+
+```python
+chain2.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 42.9 ms, sys: 10.2 ms, total: 53 ms
+    Wall time: 1.93 s
+
+    AIMessage(content="In forest's embrace, bears roam free,\nSilent strength, nature's majesty.", additional_kwargs={}, example=False)
+```
+
+```python
+combined.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 96.3 ms, sys: 20.4 ms, total: 117 ms
+    Wall time: 1.1 s
+
+    {'joke': AIMessage(content="Why don't bears wear socks?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     'poem': AIMessage(content="In forest's embrace,\nMajestic bears leave their trace.", additional_kwargs={}, example=False)}
+```</code></pre>
+</div>
+</div>
+</section>
+<section id="framentación-de-texto-con-contexto-de-distrubución-de-tokens" class="level2">
+<h2 class="anchored" data-anchor-id="framentación-de-texto-con-contexto-de-distrubución-de-tokens">Framentación de texto con contexto de distrubución de <code>tokens</code></h2>
+<p>En muchas ocasiones, el contexto de cómo se distribuyen los <code>tokens</code> o <code>caracteres</code> en el texto puede ser de gran ayuda para decidir cómo fragmentar el texto. Veámoslo con un ejemplo.</p>
+<section id="funciones-de-apoyo" class="level3">
+<h3 class="anchored" data-anchor-id="funciones-de-apoyo">Funciones de apoyo</h3>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> num_tokens_from_string(string: <span class="bu">str</span>, encoding_name: <span class="bu">str</span> <span class="op">=</span> <span class="st">"cl100k_base"</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Returns the number of tokens in a text string."""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    encoding <span class="op">=</span> tiktoken.get_encoding(encoding_name)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    num_tokens <span class="op">=</span> <span class="bu">len</span>(encoding.encode(string))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> num_tokens</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> num_tokens_from_document(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    document: Document, encoding_name: <span class="bu">str</span> <span class="op">=</span> <span class="st">"cl100k_base"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Returns the number of tokens in a document."""</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> num_tokens_from_string(document.page_content, encoding_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="estadísticas-de-tokens-en-los-textos" class="level3">
+<h3 class="anchored" data-anchor-id="estadísticas-de-tokens-en-los-textos">Estadísticas de tokens en los textos</h3>
+<p>Calculemos algunas estadísticas de los <code>tokens</code> en los textos utilizado <code>pandas</code>.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tokens_per_document <span class="op">=</span> pd.Series([num_tokens_from_document(doc) <span class="cf">for</span> doc <span class="kw">in</span> docs])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>tokens_per_document.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>count      962.000000
+mean      1599.195426
+std       3419.855171
+min         42.000000
+25%        382.250000
+50%        809.500000
+75%       1646.750000
+max      80983.000000
+dtype: float64</code></pre>
+</div>
+</div>
+<p>La amplia variabilidad en el número de tokens por documento sugiere que se está tratando con documentos de longitudes muy diversas, desde muy cortos hasta muy largos. Esto podría afectar a los análisis subsiguientes y debería tenerse en cuenta al desarrollar modelos de procesamiento de lenguaje natural, ajustando posiblemente los métodos de preprocesamiento o utilizando técnicas que puedan manejar eficientemente documentos de diferentes longitudes. Además, el sesgo a la derecha en la distribución sugiere que aunque la mayoría de los documentos son relativamente cortos, hay algunos documentos extremadamente largos que podrían ser atípicos y necesitar un tratamiento especial.</p>
+</section>
+<section id="visualización-de-distribución-de-tokens-sin-outliers" class="level3">
+<h3 class="anchored" data-anchor-id="visualización-de-distribución-de-tokens-sin-outliers">Visualización de distribución de tokens sin outliers</h3>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Q1, Q3, and IQR</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Q1 <span class="op">=</span> tokens_per_document.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Q3 <span class="op">=</span> tokens_per_document.quantile(<span class="fl">0.75</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>IQR <span class="op">=</span> Q3 <span class="op">-</span> Q1</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>upper_bound <span class="op">=</span> Q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> IQR</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># We only filter outliers by upper bound since we don't have problems with short documents.</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>filtered_tokens <span class="op">=</span> tokens_per_document[(tokens_per_document <span class="op">&lt;=</span> upper_bound)]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the important sections of the histogram</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(filtered_tokens, kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">"Number of tokens"</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">"Number of documents"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Number of tokens per document"</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>[Text(0.5, 0, 'Number of tokens'),
+ Text(0, 0.5, 'Number of documents'),
+ Text(0.5, 1.0, 'Number of tokens per document')]</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="02_context_aware_text_splitting_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="framentación-de-texto-con-base-en-la-distribución-de-tokens" class="level3">
+<h3 class="anchored" data-anchor-id="framentación-de-texto-con-base-en-la-distribución-de-tokens">Framentación de texto con base en la distribución de tokens</h3>
+<p>Considerando los resultados anteriores, podemos utilizar la información de la distribución de tokens para fragmentar el texto de forma más precisa. Para ello, utilizaremos la función <code>RecursiveCharacterTextSplitter()</code> de langchain, pero ahora especifícaremos los parámetros <code>chunk_size</code> y <code>chunk_overlap</code>.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    chunk_size<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    chunk_overlap<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    length_function<span class="op">=</span>num_tokens_from_string,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>splitted_with_little_context <span class="op">=</span> splitter.split_documents(docs)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>print_split_for_lcle(splitted_with_little_context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+# Interface
+
+In an effort to make it as easy as possible to create custom chains, we've implemented a ["Runnable"](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.Runnable.html#langchain.schema.runnable.Runnable) protocol that most components implement. This is a standard interface with a few different methods, which makes it easy to define custom chains as well as making it possible to invoke them in a standard way. The standard interface exposed includes:
+
+- `stream`: stream back chunks of the response
+- `invoke`: call the chain on an input
+- `batch`: call the chain on a list of inputs
+
+These also have corresponding async methods:
+
+- `astream`: stream back chunks of the response async
+- `ainvoke`: call the chain on an input async
+- `abatch`: call the chain on a list of inputs async
+
+The type of the input varies by component:
+
+| Component | Input Type |
+| ---- | ---- |
+| Prompt | Dictionary |
+| Retriever | Single string |
+| Model | Single string, list of chat messages or a PromptValue |
+
+The output type also varies by component:
+
+| Component | Output Type |
+| ---- | ---- |
+| LLM | String |
+| ChatModel | ChatMessage |
+| Prompt | PromptValue |
+| Retriever | List of documents |
+
+Let's take a look at these methods! To do so, we'll create a super simple PromptTemplate + ChatModel chain.
+
+```python
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+```
+
+&gt; **API Reference:**
+&gt; - [ChatPromptTemplate](https://api.python.langchain.com/en/latest/prompts/langchain.prompts.chat.ChatPromptTemplate.html)
+&gt; - [ChatOpenAI](https://api.python.langchain.com/en/latest/chat_models/langchain.chat_models.openai.ChatOpenAI.html)
+
+```python
+model = ChatOpenAI()
+```
+
+```python
+prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+```
+
+```python
+chain = prompt | model
+```
+
+## Stream​
+
+```python
+for s in chain.stream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Sure, here's a bear-themed joke for you:
+    
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Invoke​
+
+```python
+chain.invoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Why don't bears wear shoes?\n\nBecause they already have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Batch​
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears ever wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+You can set the number of concurrent requests by using the `max_concurrency` parameter
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}], config={"max_concurrency": 5})
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+## Async Stream​
+
+```python
+async for s in chain.astream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Async Invoke​
+
+```python
+await chain.ainvoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Sure, here you go:\n\nWhy don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Async Batch​
+
+```python
+await chain.abatch([{"topic": "bears"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)]
+```
+
+## Parallelism​
+
+Let's take a look at how LangChain Expression Language support parralel requests as much as possible. For example, when using a RunnableMapping (often written as a dictionary) it executes each element in parralel.
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+Let's take a look at how LangChain Expression Language support parralel requests as much as possible. For example, when using a RunnableMapping (often written as a dictionary) it executes each element in parralel.
+
+```python
+from langchain.schema.runnable import RunnableMap
+chain1 = ChatPromptTemplate.from_template("tell me a joke about {topic}") | model
+chain2 = ChatPromptTemplate.from_template("write a short (2 line) poem about {topic}") | model
+combined = RunnableMap({
+    "joke": chain1,
+    "poem": chain2,
+})
+```
+
+&gt; **API Reference:**
+&gt; - [RunnableMap](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.base.RunnableMap.html)
+
+```python
+chain1.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 31.7 ms, sys: 8.59 ms, total: 40.3 ms
+    Wall time: 1.05 s
+
+    AIMessage(content="Why don't bears like fast food?\n\nBecause they can't catch it!", additional_kwargs={}, example=False)
+```
+
+```python
+chain2.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 42.9 ms, sys: 10.2 ms, total: 53 ms
+    Wall time: 1.93 s
+
+    AIMessage(content="In forest's embrace, bears roam free,\nSilent strength, nature's majesty.", additional_kwargs={}, example=False)
+```
+
+```python
+combined.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 96.3 ms, sys: 20.4 ms, total: 117 ms
+    Wall time: 1.1 s
+
+    {'joke': AIMessage(content="Why don't bears wear socks?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     'poem': AIMessage(content="In forest's embrace,\nMajestic bears leave their trace.", additional_kwargs={}, example=False)}
+```</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="framentación-de-texto-con-contexto" class="level2">
+<h2 class="anchored" data-anchor-id="framentación-de-texto-con-contexto">Framentación de texto con contexto</h2>
+<p>Con el dominio del problema podemos fragmentar el texto de manera más precisa.</p>
+<section id="framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="framentación-de-texto-con-base-en-una-especificación-de-lenguaje-como-contexto">Framentación de texto con base en una especificación de lenguaje como contexto</h3>
+<p>En nuestro ejemplo, nuestros documentos son <code>Markdown</code>, por lo que podríamos fragmentar el documento en función de los caracteres que se utilizan para definir los encabezados de las secciones y otros elementos de formato.</p>
+<p>En este caso, la función internamente utiliza los siguientes patrones para fragmentar el texto:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First, try to split along Markdown headings (starting with level 2)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">#{1,6} "</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note the alternative syntax for headings (below) is not handled here</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Heading level 2</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---------------</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End of code block</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"```</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Horizontal lines</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n\\</span><span class="st">*</span><span class="ch">\\</span><span class="st">*</span><span class="ch">\\</span><span class="st">*+</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">---+</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">___+</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note that this splitter doesn't handle horizontal lines defined</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># by *three or more* of ***, ---, or ___, but this is not handled</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">" "</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">""</span>,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>md_language_splitter <span class="op">=</span> RecursiveCharacterTextSplitter.from_language(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    language<span class="op">=</span>Language.MARKDOWN,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    chunk_size<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    chunk_overlap<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    length_function<span class="op">=</span>num_tokens_from_string,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>md_language_splits <span class="op">=</span> md_language_splitter.split_documents(docs)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>print_split_for_lcle(md_language_splits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+# Interface
+
+In an effort to make it as easy as possible to create custom chains, we've implemented a ["Runnable"](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.Runnable.html#langchain.schema.runnable.Runnable) protocol that most components implement. This is a standard interface with a few different methods, which makes it easy to define custom chains as well as making it possible to invoke them in a standard way. The standard interface exposed includes:
+
+- `stream`: stream back chunks of the response
+- `invoke`: call the chain on an input
+- `batch`: call the chain on a list of inputs
+
+These also have corresponding async methods:
+
+- `astream`: stream back chunks of the response async
+- `ainvoke`: call the chain on an input async
+- `abatch`: call the chain on a list of inputs async
+
+The type of the input varies by component:
+
+| Component | Input Type |
+| ---- | ---- |
+| Prompt | Dictionary |
+| Retriever | Single string |
+| Model | Single string, list of chat messages or a PromptValue |
+
+The output type also varies by component:
+
+| Component | Output Type |
+| ---- | ---- |
+| LLM | String |
+| ChatModel | ChatMessage |
+| Prompt | PromptValue |
+| Retriever | List of documents |
+
+Let's take a look at these methods! To do so, we'll create a super simple PromptTemplate + ChatModel chain.
+
+```python
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+```
+
+&gt; **API Reference:**
+&gt; - [ChatPromptTemplate](https://api.python.langchain.com/en/latest/prompts/langchain.prompts.chat.ChatPromptTemplate.html)
+&gt; - [ChatOpenAI](https://api.python.langchain.com/en/latest/chat_models/langchain.chat_models.openai.ChatOpenAI.html)
+
+```python
+model = ChatOpenAI()
+```
+
+```python
+prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+```
+
+```python
+chain = prompt | model
+```
+
+## Stream​
+
+```python
+for s in chain.stream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Sure, here's a bear-themed joke for you:
+    
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Invoke​
+
+```python
+chain.invoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Why don't bears wear shoes?\n\nBecause they already have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Batch​
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears ever wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+You can set the number of concurrent requests by using the `max_concurrency` parameter
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}], config={"max_concurrency": 5})
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+## Async Stream​
+
+```python
+async for s in chain.astream({"topic": "bears"}):
+    print(s.content, end="", flush=True)
+```
+
+```text
+    Why don't bears wear shoes?
+    
+    Because they have bear feet!
+```
+
+## Async Invoke​
+
+```python
+await chain.ainvoke({"topic": "bears"})
+```
+
+```text
+    AIMessage(content="Sure, here you go:\n\nWhy don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)
+```
+
+## Async Batch​
+
+```python
+await chain.abatch([{"topic": "bears"}])
+```
+
+```text
+    [AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)]
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+## Parallelism​
+
+Let's take a look at how LangChain Expression Language support parralel requests as much as possible. For example, when using a RunnableMapping (often written as a dictionary) it executes each element in parralel.
+
+```python
+from langchain.schema.runnable import RunnableMap
+chain1 = ChatPromptTemplate.from_template("tell me a joke about {topic}") | model
+chain2 = ChatPromptTemplate.from_template("write a short (2 line) poem about {topic}") | model
+combined = RunnableMap({
+    "joke": chain1,
+    "poem": chain2,
+})
+```
+
+&gt; **API Reference:**
+&gt; - [RunnableMap](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.base.RunnableMap.html)
+
+```python
+chain1.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 31.7 ms, sys: 8.59 ms, total: 40.3 ms
+    Wall time: 1.05 s
+
+    AIMessage(content="Why don't bears like fast food?\n\nBecause they can't catch it!", additional_kwargs={}, example=False)
+```
+
+```python
+chain2.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 42.9 ms, sys: 10.2 ms, total: 53 ms
+    Wall time: 1.93 s
+
+    AIMessage(content="In forest's embrace, bears roam free,\nSilent strength, nature's majesty.", additional_kwargs={}, example=False)
+```
+
+```python
+combined.invoke({"topic": "bears"})
+```
+
+```text
+    CPU times: user 96.3 ms, sys: 20.4 ms, total: 117 ms
+    Wall time: 1.1 s
+
+    {'joke': AIMessage(content="Why don't bears wear socks?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+     'poem': AIMessage(content="In forest's embrace,\nMajestic bears leave their trace.", additional_kwargs={}, example=False)}
+```</code></pre>
+</div>
+</div>
+</section>
+<section id="framentación-de-texto-utilizando-encabezados-como-contexto" class="level3">
+<h3 class="anchored" data-anchor-id="framentación-de-texto-utilizando-encabezados-como-contexto">Framentación de texto utilizando encabezados como contexto</h3>
+<p>En contrastraste con el ejemplo anterior, en este caso utilizaremos únicamente los encabezados de los documentos como contexto para fragmentar el texto. Estos encabezados pasarán a formar parte de los meta-datos de los fragmentos.</p>
+<p>Dentro de cada framento de encabezado, podríamos repetir el proceso de fragmentación de texto con base en la distribución de tokens o en una especificación de lenguaje como contexto.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>md_headers_splits: <span class="bu">list</span>[Document] <span class="op">=</span> []</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> docs:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    md_header_splitter <span class="op">=</span> MarkdownHeaderTextSplitter(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        headers_to_split_on<span class="op">=</span>[</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>            (<span class="st">"#"</span>, <span class="st">"Header 1"</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>            (<span class="st">"##"</span>, <span class="st">"Header 2"</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter.from_language(</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        language<span class="op">=</span>Language.MARKDOWN,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        chunk_size<span class="op">=</span><span class="dv">1000</span>,  <span class="co"># try then with 150</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        chunk_overlap<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        length_function<span class="op">=</span>num_tokens_from_string,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    splits <span class="op">=</span> md_header_splitter.split_text(doc.page_content)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    splits <span class="op">=</span> text_splitter.split_documents(splits)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    splits <span class="op">=</span> [</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        Document(</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>            page_content<span class="op">=</span>split.page_content,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>            metadata<span class="op">=</span>{</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>                <span class="op">**</span>split.metadata,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>                <span class="op">**</span>doc.metadata,</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>            },</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> split <span class="kw">in</span> splits</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    md_headers_splits.extend(splits)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>print_split_for_lcle(md_headers_splits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+In an effort to make it as easy as possible to create custom chains, we've implemented a ["Runnable"](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.Runnable.html#langchain.schema.runnable.Runnable) protocol that most components implement. This is a standard interface with a few different methods, which makes it easy to define custom chains as well as making it possible to invoke them in a standard way. The standard interface exposed includes:  
+- `stream`: stream back chunks of the response
+- `invoke`: call the chain on an input
+- `batch`: call the chain on a list of inputs  
+These also have corresponding async methods:  
+- `astream`: stream back chunks of the response async
+- `ainvoke`: call the chain on an input async
+- `abatch`: call the chain on a list of inputs async  
+The type of the input varies by component:  
+| Component | Input Type |
+| ---- | ---- |
+| Prompt | Dictionary |
+| Retriever | Single string |
+| Model | Single string, list of chat messages or a PromptValue |  
+The output type also varies by component:  
+| Component | Output Type |
+| ---- | ---- |
+| LLM | String |
+| ChatModel | ChatMessage |
+| Prompt | PromptValue |
+| Retriever | List of documents |  
+Let's take a look at these methods! To do so, we'll create a super simple PromptTemplate + ChatModel chain.  
+```python
+from langchain.prompts import ChatPromptTemplate
+from langchain.chat_models import ChatOpenAI
+```  
+&gt; **API Reference:**
+&gt; - [ChatPromptTemplate](https://api.python.langchain.com/en/latest/prompts/langchain.prompts.chat.ChatPromptTemplate.html)
+&gt; - [ChatOpenAI](https://api.python.langchain.com/en/latest/chat_models/langchain.chat_models.openai.ChatOpenAI.html)  
+```python
+model = ChatOpenAI()
+```  
+```python
+prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+```  
+```python
+chain = prompt | model
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+for s in chain.stream({"topic": "bears"}):
+print(s.content, end="", flush=True)
+```  
+```text
+Sure, here's a bear-themed joke for you:  
+Why don't bears wear shoes?  
+Because they have bear feet!
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+chain.invoke({"topic": "bears"})
+```  
+```text
+AIMessage(content="Why don't bears wear shoes?\n\nBecause they already have bear feet!", additional_kwargs={}, example=False)
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}])
+```  
+```text
+[AIMessage(content="Why don't bears ever wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```  
+You can set the number of concurrent requests by using the `max_concurrency` parameter  
+```python
+chain.batch([{"topic": "bears"}, {"topic": "cats"}], config={"max_concurrency": 5})
+```  
+```text
+[AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+AIMessage(content="Why don't cats play poker in the wild?\n\nToo many cheetahs!", additional_kwargs={}, example=False)]
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+async for s in chain.astream({"topic": "bears"}):
+print(s.content, end="", flush=True)
+```  
+```text
+Why don't bears wear shoes?  
+Because they have bear feet!
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+await chain.ainvoke({"topic": "bears"})
+```  
+```text
+AIMessage(content="Sure, here you go:\n\nWhy don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+```python
+await chain.abatch([{"topic": "bears"}])
+```  
+```text
+[AIMessage(content="Why don't bears wear shoes?\n\nBecause they have bear feet!", additional_kwargs={}, example=False)]
+```
+
+
+======= https://python.langchain.com/docs/expression_language/interface ========
+
+
+Let's take a look at how LangChain Expression Language support parralel requests as much as possible. For example, when using a RunnableMapping (often written as a dictionary) it executes each element in parralel.  
+```python
+from langchain.schema.runnable import RunnableMap
+chain1 = ChatPromptTemplate.from_template("tell me a joke about {topic}") | model
+chain2 = ChatPromptTemplate.from_template("write a short (2 line) poem about {topic}") | model
+combined = RunnableMap({
+"joke": chain1,
+"poem": chain2,
+})
+```  
+&gt; **API Reference:**
+&gt; - [RunnableMap](https://api.python.langchain.com/en/latest/schema/langchain.schema.runnable.base.RunnableMap.html)  
+```python
+chain1.invoke({"topic": "bears"})
+```  
+```text
+CPU times: user 31.7 ms, sys: 8.59 ms, total: 40.3 ms
+Wall time: 1.05 s  
+AIMessage(content="Why don't bears like fast food?\n\nBecause they can't catch it!", additional_kwargs={}, example=False)
+```  
+```python
+chain2.invoke({"topic": "bears"})
+```  
+```text
+CPU times: user 42.9 ms, sys: 10.2 ms, total: 53 ms
+Wall time: 1.93 s  
+AIMessage(content="In forest's embrace, bears roam free,\nSilent strength, nature's majesty.", additional_kwargs={}, example=False)
+```  
+```python
+combined.invoke({"topic": "bears"})
+```  
+```text
+CPU times: user 96.3 ms, sys: 20.4 ms, total: 117 ms
+Wall time: 1.1 s  
+{'joke': AIMessage(content="Why don't bears wear socks?\n\nBecause they have bear feet!", additional_kwargs={}, example=False),
+'poem': AIMessage(content="In forest's embrace,\nMajestic bears leave their trace.", additional_kwargs={}, example=False)}
+```</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/01_context_aware_text_extraction.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Extracción de texto con base en el contexto</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/03_indexing_vectors.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Indexación de vectores</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
