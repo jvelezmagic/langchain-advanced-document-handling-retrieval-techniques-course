@@ -6,7 +6,9 @@ book:
   title: "Curso Avanzado de Técnicas de Manejo y Recuperación de Documentos con Langchain"
   author: "Jesús Vélez Santiago"
   date: "10/01/2023"
+  site-url: https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/
   repo-url: https://github.com/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course
+  repo-actions: [edit]
   sharing: [twitter, linkedin]
   page-navigation: true
   chapters:
