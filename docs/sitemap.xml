@@ -6,6 +6,14 @@
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/index.html</loc>
-    <lastmod>2023-10-02T04:12:55.917Z</lastmod>
+    <lastmod>2023-10-02T04:24:21.099Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/02_context_aware_text_splitting.html</loc>
+    <lastmod>2023-10-02T04:23:48.781Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/10_lost_in_the_middle_reranking.html</loc>
+    <lastmod>2023-10-02T04:24:24.662Z</lastmod>
   </url>
 </urlset>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.450">
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -51,16 +85,16 @@ ul.task-list li input[type="checkbox"] {
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 
@@ -73,11 +107,11 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/08_semantic_reranking.html">Re-rankeo</a></li><li class="breadcrumb-item"><a href="../notebooks/10_lost_in_the_middle_reranking.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Perdido en el medio: El problema con los contextos largos</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -111,13 +145,13 @@ ul.task-list li input[type="checkbox"] {
           </li>
       </ul>
     </div>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Buscar"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -132,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Procesamiento de documentos</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -161,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
  <span class="menu-text">Recuperación de información</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -196,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">Re-rankeo</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -237,7 +271,18 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#librerías" id="toc-librerías" class="nav-link active" data-scroll-target="#librerías">Librerías</a></li>
+  <li><a href="#carga-de-datos" id="toc-carga-de-datos" class="nav-link" data-scroll-target="#carga-de-datos">Carga de datos</a></li>
+  <li><a href="#creación-de-retriever" id="toc-creación-de-retriever" class="nav-link" data-scroll-target="#creación-de-retriever">Creación de retriever</a></li>
+  <li><a href="#consulta-con-el-retriever" id="toc-consulta-con-el-retriever" class="nav-link" data-scroll-target="#consulta-con-el-retriever">Consulta con el retriever</a></li>
+  <li><a href="#reordenado-de-documentos" id="toc-reordenado-de-documentos" class="nav-link" data-scroll-target="#reordenado-de-documentos">Reordenado de documentos</a></li>
+  <li><a href="#uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" id="toc-uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" class="nav-link" data-scroll-target="#uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrival Augmented Generation</code></a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/10_lost_in_the_middle_reranking.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -261,29 +306,133 @@ ul.task-list li input[type="checkbox"] {
 
 <p>“Independientemente de la arquitectura de tu modelo, existe una degradación sustancial del rendimiento cuando incluyes más de 10 documentos recuperados. En resumen: Cuando los modelos deben acceder a información relevante en medio de contextos largos, tienden a ignorar los documentos proporcionados. Ver: https://arxiv.org/abs/2307.03172</p>
 <p>Para evitar este problema, puedes reordenar los documentos después de recuperarlos para evitar la degradación del rendimiento.”</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"><a href="https://python.langchain.com/docs/modules/data_connection/document_transformers/post_retrieval/long_context_reorder">Langchain</a></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">{context}</td>
-</tr>
-</tbody>
-</table>
-<p>Answer the following question, if you don’t know the answer, just write “I don’t know.</p>
-<p>Question: {question}““” )</p>
-<p>llm = ChatOpenAI(temperature=0)</p>
-<p>stuff_chain = ( { “context”: itemgetter(“question”) | retriever | reordering.transform_documents | combine_documents, “question”: itemgetter(“question”), } | prompt | llm )</p>
-<pre><code>:::
-
-
-::: {.cell execution_count=7}
-``` {.python .cell-code}
-response = stuff_chain.invoke(input={"question": "How to create a chain using LCEL?"}).content
-print(response)</code></pre>
+<p>Por: <a href="https://python.langchain.com/docs/modules/data_connection/document_transformers/post_retrieval/long_context_reorder">Langchain</a></p>
+<section id="librerías" class="level2">
+<h2 class="anchored" data-anchor-id="librerías">Librerías</h2>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> operator <span class="im">import</span> itemgetter</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.chat_models <span class="im">import</span> ChatOpenAI</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.document_transformers <span class="im">import</span> LongContextReorder</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.embeddings <span class="im">import</span> OpenAIEmbeddings</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.prompts <span class="im">import</span> PromptTemplate</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.schema <span class="im">import</span> Document</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.text_splitter <span class="im">import</span> RecursiveCharacterTextSplitter</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain.vectorstores <span class="im">import</span> Chroma</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.langchain_docs_loader <span class="im">import</span> LangchainDocsLoader, num_tokens_from_string</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>True</code></pre>
+</div>
+</div>
+</section>
+<section id="carga-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="carga-de-datos">Carga de datos</h2>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    chunk_size<span class="op">=</span><span class="dv">350</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    chunk_overlap<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    length_function<span class="op">=</span>num_tokens_from_string,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> LangchainDocsLoader().load()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> text_splitter.split_documents(documents)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="creación-de-retriever" class="level2">
+<h2 class="anchored" data-anchor-id="creación-de-retriever">Creación de retriever</h2>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> Chroma.from_documents(documents, embedding<span class="op">=</span>OpenAIEmbeddings()).as_retriever(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    search_type<span class="op">=</span><span class="st">"mmr"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    search_kwargs<span class="op">=</span>{</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"k"</span>: <span class="dv">10</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"fetch_k"</span>: <span class="dv">50</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-text-embedding-ada-002 in organization org-vwqjdaXGZeEg6mWAVSflJXD9 on tokens per min. Limit: 1000000 / min. Current: 774651 / min. Contact us through our help center at help.openai.com if you continue to have issues..</code></pre>
+</div>
+</div>
+</section>
+<section id="consulta-con-el-retriever" class="level2">
+<h2 class="anchored" data-anchor-id="consulta-con-el-retriever">Consulta con el retriever</h2>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>relevant_docs <span class="op">=</span> retriever.get_relevant_documents(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How to use LCEL ainvoke with a retriever?"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>relevant_docs</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>[Document(page_content='## LLMRails as a Retriever\u200b\n\nLLMRails, as all the other LangChain vectorstores, is most often used as a LangChain Retriever:\n\n```python\nretriever = llm_rails.as_retriever()\nretriever\n```\n\n```text\n    LLMRailsRetriever(tags=None, metadata=None, vectorstore=&lt;langchain.vectorstores.llm_rails.LLMRails object at 0x107b9c040&gt;, search_type=\'similarity\', search_kwargs={\'k\': 5})\n```\n\n```python\nquery = "What is your approach to national defense"\nretriever.get_relevant_documents(query)[0]\n```', metadata={'description': 'LLMRails is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy.', 'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/vectorstores/llm_rails', 'title': 'LLMRails | 🦜️🔗 Langchain'}),
+ Document(page_content="QdrantTranslator\\n6. WeaviateTranslator\\n\\nAnd remote retrievers like:\\n\\n1. RemoteLangChainRetriever'}", metadata={'description': "In this tutorial, we are going to use Langchain + Activeloop's Deep Lake with GPT to analyze the code base of the LangChain itself.", 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/question_answering/how_to/code/code-analysis-deeplake', 'title': "Use LangChain, GPT and Activeloop's Deep Lake to work with code base | 🦜️🔗 Langchain"}),
+ Document(page_content='# Retrieve as you generate with FLARE\n\nThis notebook is an implementation of Forward-Looking Active REtrieval augmented generation (FLARE).\n\nPlease see the original repo [here](https://github.com/jzbjyb/FLARE/tree/main).\n\nThe basic idea is:\n\n- Start answering a question\n- If you start generating tokens the model is uncertain about, look up relevant documents\n- Use those documents to continue generating\n- Repeat until finished\n\nThere is a lot of cool detail in how the lookup of relevant documents is done.\nBasically, the tokens that model is uncertain about are highlighted, and then an LLM is called to generate a question that would lead to that answer. For example, if the generated text is `Joe Biden went to Harvard`, and the tokens the model was uncertain about was `Harvard`, then a good generated question would be `where did Joe Biden go to college`. This generated question is then used in a retrieval step to fetch relevant documents.\n\nIn order to set up this chain, we will need three things:\n\n- An LLM to generate the answer\n- An LLM to generate hypothetical questions to use in retrieval\n- A retriever to use to look up answers for\n\nThe LLM that we use to generate the answer needs to return logprobs so we can identify uncertain tokens. For that reason, we HIGHLY recommend that you use the OpenAI wrapper (NB: not the ChatOpenAI wrapper, as that does not return logprobs).\n\nThe LLM we use to generate hypothetical questions to use in retrieval can be anything. In this notebook we will use ChatOpenAI because it is fast and cheap.', metadata={'description': 'This notebook is an implementation of Forward-Looking Active REtrieval augmented generation (FLARE).', 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/question_answering/how_to/flare', 'title': 'Retrieve as you generate with FLARE | 🦜️🔗 Langchain'}),
+ Document(page_content='# Self-querying\n\nA self-querying retriever is one that, as the name suggests, has the ability to query itself. Specifically, given any natural language query, the retriever uses a query-constructing LLM chain to write a structured query and then applies that structured query to its underlying VectorStore. This allows the retriever to not only use the user-input query for semantic similarity comparison with the contents of stored documents but to also extract filters from the user query on the metadata of stored documents and to execute those filters.\n\n![](https://drive.google.com/uc?id=1OQUN-0MJcDUxmPXofgS7MqReEs720pqS)\n\n## Get started\u200b\n\nWe\'ll use a Pinecone vector store in this example.\n\nFirst we\'ll want to create a `Pinecone` vector store and seed it with some data. We\'ve created a small demo set of documents that contain summaries of movies.\n\nTo use Pinecone, you need to have `pinecone` package installed and you must have an API key and an environment. Here are the [installation instructions](https://docs.pinecone.io/docs/quickstart).\n\n**Note:** The self-query retriever requires you to have `lark` package installed.\n\n```python\n# !pip install lark pinecone-client\n```\n\n```python\nimport os\n\nimport pinecone\n\npinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENV"])\n```\n\n```python\nfrom langchain.schema import Document\nfrom langchain.embeddings.openai import OpenAIEmbeddings\nfrom langchain.vectorstores import Pinecone', metadata={'description': 'A self-querying retriever is one that, as the name suggests, has the ability to query itself. Specifically, given any natural language query, the retriever uses a query-constructing LLM chain to write a structured query and then applies that structured query to its underlying VectorStore. This allows the retriever to not only use the user-input query for semantic similarity comparison with the contents of stored documents but to also extract filters from the user query on the metadata of stored documents and to execute those filters.', 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/retrievers/self_query/', 'title': 'Self-querying | 🦜️🔗 Langchain'}),
+ Document(page_content="- [Parent Document Retriever](/docs/modules/data_connection/retrievers/parent_document_retriever): This allows you to create multiple embeddings per parent document, allowing you to look up smaller chunks but return larger context.\n- [Self Query Retriever](/docs/modules/data_connection/retrievers/self_query): User questions often contain a reference to something that isn't just semantic but rather expresses some logic that can best be represented as a metadata filter. Self-query allows you to parse out the _semantic_ part of a query from other _metadata filters_ present in the query.\n- [Ensemble Retriever](/docs/modules/data_connection/retrievers/ensemble): Sometimes you may want to retrieve documents from multiple different sources, or using multiple different algorithms. The ensemble retriever allows you to easily do this.\n- And more!", metadata={'description': "Many LLM applications require user-specific data that is not part of the model's training set.", 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/', 'title': 'Retrieval | 🦜️🔗 Langchain'}),
+ Document(page_content='Again, we can use the [LangSmith trace](https://smith.langchain.com/public/18460363-0c70-4c72-81c7-3b57253bb58c/r) to explore the prompt structure.\n\n### Going deeper\u200b\n\n- Agents, such as the [conversational retrieval agent](/docs/use_cases/question_answering/how_to/conversational_retrieval_agents), can be used for retrieval when necessary while also holding a conversation.', metadata={'description': 'Open In Collab', 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/chatbots', 'title': 'Chatbots | 🦜️🔗 Langchain'}),
+ Document(page_content='for Zep - A long-term memory store for LLM applications.](/docs/integrations/retrievers/zep_memorystore)', metadata={'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/retrievers', 'title': 'Retrievers | 🦜️🔗 Langchain'}),
+ Document(page_content='- ⛓ [How to use BGE Embeddings for LangChain](https://youtu.be/sWRvSG7vL4g?si=85jnvnmTCF9YIWXI)\n- ⛓ [How to use Custom Prompts for RetrievalQA on LLaMA-2 7B](https://youtu.be/PDwUKves9GY?si=sMF99TWU0p4eiK80)', metadata={'description': 'Below are links to tutorials and courses on LangChain. For written guides on common use cases for LangChain, check out the use cases guides.', 'language': 'en', 'source': 'https://python.langchain.com/docs/additional_resources/tutorials', 'title': 'Tutorials | 🦜️🔗 Langchain'}),
+ Document(page_content='```python\nllm_with_tools = llm.bind(\n    functions=[\n        # The retriever tool\n        format_tool_to_openai_function(retriever_tool), \n        # Response schema\n        convert_pydantic_to_openai_function(Response)\n    ]\n)\n```\n\n```python\nagent = {\n    "input": lambda x: x["input"],\n    # Format agent scratchpad from intermediate steps\n    "agent_scratchpad": lambda x: format_to_openai_functions(x[\'intermediate_steps\'])\n} | prompt | llm_with_tools | parse\n```\n\n```python\nagent_executor = AgentExecutor(tools=[retriever_tool], agent=agent, verbose=True)\n```\n\n## Run the agent\u200b\n\nWe can now run the agent! Notice how it responds with a dictionary with two keys: `answer` and `sources`\n\n```python\nagent_executor.invoke({"input": "what did the president say about kentaji brown jackson"}, return_only_outputs=True)\n```', metadata={'description': 'This notebook covers how to have an agent return a structured output.', 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/agents/how_to/agent_structured', 'title': 'Returning Structured Output | 🦜️🔗 Langchain'}),
+ Document(page_content='This time the answer is correct, since the self-querying retriever created a filter on the landlord attribute of the metadata, correctly filtering to document that specifically is about the DHA Group landlord. The resulting source chunks are all relevant to this landlord, and this improves answer accuracy even though the landlord is not directly mentioned in the specific chunk that contains the correct answer.', metadata={'description': 'This notebook covers how to load documents from Docugami. It provides the advantages of using this system over alternative data loaders.', 'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/document_loaders/docugami', 'title': 'Docugami | 🦜️🔗 Langchain'})]</code></pre>
+</div>
+</div>
+</section>
+<section id="reordenado-de-documentos" class="level2">
+<h2 class="anchored" data-anchor-id="reordenado-de-documentos">Reordenado de documentos</h2>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>reordering <span class="op">=</span> LongContextReorder()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>reordered_docs <span class="op">=</span> <span class="bu">list</span>(reordering.transform_documents(relevant_docs))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>reordered_docs</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>[Document(page_content="QdrantTranslator\\n6. WeaviateTranslator\\n\\nAnd remote retrievers like:\\n\\n1. RemoteLangChainRetriever'}", metadata={'description': "In this tutorial, we are going to use Langchain + Activeloop's Deep Lake with GPT to analyze the code base of the LangChain itself.", 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/question_answering/how_to/code/code-analysis-deeplake', 'title': "Use LangChain, GPT and Activeloop's Deep Lake to work with code base | 🦜️🔗 Langchain"}),
+ Document(page_content='# Self-querying\n\nA self-querying retriever is one that, as the name suggests, has the ability to query itself. Specifically, given any natural language query, the retriever uses a query-constructing LLM chain to write a structured query and then applies that structured query to its underlying VectorStore. This allows the retriever to not only use the user-input query for semantic similarity comparison with the contents of stored documents but to also extract filters from the user query on the metadata of stored documents and to execute those filters.\n\n![](https://drive.google.com/uc?id=1OQUN-0MJcDUxmPXofgS7MqReEs720pqS)\n\n## Get started\u200b\n\nWe\'ll use a Pinecone vector store in this example.\n\nFirst we\'ll want to create a `Pinecone` vector store and seed it with some data. We\'ve created a small demo set of documents that contain summaries of movies.\n\nTo use Pinecone, you need to have `pinecone` package installed and you must have an API key and an environment. Here are the [installation instructions](https://docs.pinecone.io/docs/quickstart).\n\n**Note:** The self-query retriever requires you to have `lark` package installed.\n\n```python\n# !pip install lark pinecone-client\n```\n\n```python\nimport os\n\nimport pinecone\n\npinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENV"])\n```\n\n```python\nfrom langchain.schema import Document\nfrom langchain.embeddings.openai import OpenAIEmbeddings\nfrom langchain.vectorstores import Pinecone', metadata={'description': 'A self-querying retriever is one that, as the name suggests, has the ability to query itself. Specifically, given any natural language query, the retriever uses a query-constructing LLM chain to write a structured query and then applies that structured query to its underlying VectorStore. This allows the retriever to not only use the user-input query for semantic similarity comparison with the contents of stored documents but to also extract filters from the user query on the metadata of stored documents and to execute those filters.', 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/retrievers/self_query/', 'title': 'Self-querying | 🦜️🔗 Langchain'}),
+ Document(page_content='Again, we can use the [LangSmith trace](https://smith.langchain.com/public/18460363-0c70-4c72-81c7-3b57253bb58c/r) to explore the prompt structure.\n\n### Going deeper\u200b\n\n- Agents, such as the [conversational retrieval agent](/docs/use_cases/question_answering/how_to/conversational_retrieval_agents), can be used for retrieval when necessary while also holding a conversation.', metadata={'description': 'Open In Collab', 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/chatbots', 'title': 'Chatbots | 🦜️🔗 Langchain'}),
+ Document(page_content='- ⛓ [How to use BGE Embeddings for LangChain](https://youtu.be/sWRvSG7vL4g?si=85jnvnmTCF9YIWXI)\n- ⛓ [How to use Custom Prompts for RetrievalQA on LLaMA-2 7B](https://youtu.be/PDwUKves9GY?si=sMF99TWU0p4eiK80)', metadata={'description': 'Below are links to tutorials and courses on LangChain. For written guides on common use cases for LangChain, check out the use cases guides.', 'language': 'en', 'source': 'https://python.langchain.com/docs/additional_resources/tutorials', 'title': 'Tutorials | 🦜️🔗 Langchain'}),
+ Document(page_content='This time the answer is correct, since the self-querying retriever created a filter on the landlord attribute of the metadata, correctly filtering to document that specifically is about the DHA Group landlord. The resulting source chunks are all relevant to this landlord, and this improves answer accuracy even though the landlord is not directly mentioned in the specific chunk that contains the correct answer.', metadata={'description': 'This notebook covers how to load documents from Docugami. It provides the advantages of using this system over alternative data loaders.', 'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/document_loaders/docugami', 'title': 'Docugami | 🦜️🔗 Langchain'}),
+ Document(page_content='```python\nllm_with_tools = llm.bind(\n    functions=[\n        # The retriever tool\n        format_tool_to_openai_function(retriever_tool), \n        # Response schema\n        convert_pydantic_to_openai_function(Response)\n    ]\n)\n```\n\n```python\nagent = {\n    "input": lambda x: x["input"],\n    # Format agent scratchpad from intermediate steps\n    "agent_scratchpad": lambda x: format_to_openai_functions(x[\'intermediate_steps\'])\n} | prompt | llm_with_tools | parse\n```\n\n```python\nagent_executor = AgentExecutor(tools=[retriever_tool], agent=agent, verbose=True)\n```\n\n## Run the agent\u200b\n\nWe can now run the agent! Notice how it responds with a dictionary with two keys: `answer` and `sources`\n\n```python\nagent_executor.invoke({"input": "what did the president say about kentaji brown jackson"}, return_only_outputs=True)\n```', metadata={'description': 'This notebook covers how to have an agent return a structured output.', 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/agents/how_to/agent_structured', 'title': 'Returning Structured Output | 🦜️🔗 Langchain'}),
+ Document(page_content='for Zep - A long-term memory store for LLM applications.](/docs/integrations/retrievers/zep_memorystore)', metadata={'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/retrievers', 'title': 'Retrievers | 🦜️🔗 Langchain'}),
+ Document(page_content="- [Parent Document Retriever](/docs/modules/data_connection/retrievers/parent_document_retriever): This allows you to create multiple embeddings per parent document, allowing you to look up smaller chunks but return larger context.\n- [Self Query Retriever](/docs/modules/data_connection/retrievers/self_query): User questions often contain a reference to something that isn't just semantic but rather expresses some logic that can best be represented as a metadata filter. Self-query allows you to parse out the _semantic_ part of a query from other _metadata filters_ present in the query.\n- [Ensemble Retriever](/docs/modules/data_connection/retrievers/ensemble): Sometimes you may want to retrieve documents from multiple different sources, or using multiple different algorithms. The ensemble retriever allows you to easily do this.\n- And more!", metadata={'description': "Many LLM applications require user-specific data that is not part of the model's training set.", 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/', 'title': 'Retrieval | 🦜️🔗 Langchain'}),
+ Document(page_content='# Retrieve as you generate with FLARE\n\nThis notebook is an implementation of Forward-Looking Active REtrieval augmented generation (FLARE).\n\nPlease see the original repo [here](https://github.com/jzbjyb/FLARE/tree/main).\n\nThe basic idea is:\n\n- Start answering a question\n- If you start generating tokens the model is uncertain about, look up relevant documents\n- Use those documents to continue generating\n- Repeat until finished\n\nThere is a lot of cool detail in how the lookup of relevant documents is done.\nBasically, the tokens that model is uncertain about are highlighted, and then an LLM is called to generate a question that would lead to that answer. For example, if the generated text is `Joe Biden went to Harvard`, and the tokens the model was uncertain about was `Harvard`, then a good generated question would be `where did Joe Biden go to college`. This generated question is then used in a retrieval step to fetch relevant documents.\n\nIn order to set up this chain, we will need three things:\n\n- An LLM to generate the answer\n- An LLM to generate hypothetical questions to use in retrieval\n- A retriever to use to look up answers for\n\nThe LLM that we use to generate the answer needs to return logprobs so we can identify uncertain tokens. For that reason, we HIGHLY recommend that you use the OpenAI wrapper (NB: not the ChatOpenAI wrapper, as that does not return logprobs).\n\nThe LLM we use to generate hypothetical questions to use in retrieval can be anything. In this notebook we will use ChatOpenAI because it is fast and cheap.', metadata={'description': 'This notebook is an implementation of Forward-Looking Active REtrieval augmented generation (FLARE).', 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/question_answering/how_to/flare', 'title': 'Retrieve as you generate with FLARE | 🦜️🔗 Langchain'}),
+ Document(page_content='## LLMRails as a Retriever\u200b\n\nLLMRails, as all the other LangChain vectorstores, is most often used as a LangChain Retriever:\n\n```python\nretriever = llm_rails.as_retriever()\nretriever\n```\n\n```text\n    LLMRailsRetriever(tags=None, metadata=None, vectorstore=&lt;langchain.vectorstores.llm_rails.LLMRails object at 0x107b9c040&gt;, search_type=\'similarity\', search_kwargs={\'k\': 5})\n```\n\n```python\nquery = "What is your approach to national defense"\nretriever.get_relevant_documents(query)[0]\n```', metadata={'description': 'LLMRails is a API platform for building GenAI applications. It provides an easy-to-use API for document indexing and querying that is managed by LLMRails and is optimized for performance and accuracy.', 'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/vectorstores/llm_rails', 'title': 'LLMRails | 🦜️🔗 Langchain'})]</code></pre>
+</div>
+</div>
+</section>
+<section id="uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation" class="level2">
+<h2 class="anchored" data-anchor-id="uso-del-reordenador-en-nuestro-pipeline-de-retrival-augmented-generation">Uso del reordenador en nuestro pipeline de <code>Retrival Augmented Generation</code></h2>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> combine_documents(documents: <span class="bu">list</span>[Document]) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>.join([doc.page_content <span class="cf">for</span> doc <span class="kw">in</span> documents])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> PromptTemplate.from_template(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""Given the following text extracts:</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">-----</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="sc">{context}</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">-----</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">                                      </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">Answer the following question, if you don't know the answer, just write "I don't know.</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">Question: </span><span class="sc">{question}</span><span class="st">"""</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>llm <span class="op">=</span> ChatOpenAI(temperature<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>stuff_chain <span class="op">=</span> (</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"context"</span>: itemgetter(<span class="st">"question"</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> retriever</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> reordering.transform_documents</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> combine_documents,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"question"</span>: itemgetter(<span class="st">"question"</span>),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> prompt</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> llm</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> stuff_chain.invoke(<span class="bu">input</span><span class="op">=</span>{<span class="st">"question"</span>: <span class="st">"How to create a chain using LCEL?"</span>}).content</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>To create a chain using LCEL, you can follow these steps:
 
@@ -320,9 +469,10 @@ In this example, the chain starts with the `anonymizer.anonymize` function, whic
 
 Note that this is just a basic example, and you can customize the chain by adding more components or modifying the existing ones according to your requirements.</code></pre>
 </div>
-<p>:::</p>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -494,12 +644,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
