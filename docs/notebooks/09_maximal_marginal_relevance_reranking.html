@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.3.450">
@@ -85,16 +85,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "type": "textbox",
   "limit": 20,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
   }
 }</script>
 
@@ -107,11 +107,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/08_semantic_reranking.html">Re-rankeo</a></li><li class="breadcrumb-item"><a href="../notebooks/09_maximal_marginal_relevance_reranking.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Re-ranking por relevancia marginal máxima (MMR)</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -145,13 +145,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </li>
       </ul>
     </div>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
 </div>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Buscar"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -166,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Procesamiento de documentos</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -195,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
  <span class="menu-text">Recuperación de información</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -230,7 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
  <span class="menu-text">Re-rankeo</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -272,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
   <li><a href="#librerías" id="toc-librerías" class="nav-link active" data-scroll-target="#librerías">Librerías</a></li>
@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#creación-de-retriever" id="toc-creación-de-retriever" class="nav-link" data-scroll-target="#creación-de-retriever">Creación de retriever</a></li>
   <li><a href="#uso-del-retriever" id="toc-uso-del-retriever" class="nav-link" data-scroll-target="#uso-del-retriever">Uso del retriever</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course/blob/main/notebooks/09_maximal_marginal_relevance_reranking.ipynb" class="toc-action">Editar esta página</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -322,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> src.langchain_docs_loader <span class="im">import</span> load_langchain_docs_splitted</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>True</code></pre>
 </div>
@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="carga-de-datos" class="level2">
 <h2 class="anchored" data-anchor-id="carga-de-datos">Carga de datos</h2>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> load_langchain_docs_splitted()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>docs <span class="op">=</span> load_langchain_docs_splitted()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="creación-de-retriever" class="level2">
@@ -341,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>similarity_retriever <span class="op">=</span> Chroma.from_documents(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    documents<span class="op">=</span>docs,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    embedding<span class="op">=</span>OpenAIEmbeddings(),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>).as_retriever(k<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>).as_retriever(k<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-text-embedding-ada-002 in organization org-vwqjdaXGZeEg6mWAVSflJXD9 on tokens per min. Limit: 1000000 / min. Current: 792024 / min. Contact us through our help center at help.openai.com if you continue to have issues..
 Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-text-embedding-ada-002 in organization org-vwqjdaXGZeEg6mWAVSflJXD9 on tokens per min. Limit: 1000000 / min. Current: 699650 / min. Contact us through our help center at help.openai.com if you continue to have issues..
@@ -350,7 +350,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 </div>
 <p>Sin embargo, podrás notar que de hacerlo, el tipo de búsqueda que se realiza es por similitud de vectores. En este caso, queremos realizar una búsqueda por similitud de vectores, pero con un re-ranking por relevancia marginal máxima (MMR).</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>similarity_retriever.search_type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>similarity_retriever.search_type</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>'similarity'</code></pre>
 </div>
@@ -368,7 +368,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of diversity among the results with 0 corresponding to maximum diversity</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and 1 to minimum diversity.</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    lambda_mult<span class="op">=</span><span class="fl">0.5</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-text-embedding-ada-002 in organization org-vwqjdaXGZeEg6mWAVSflJXD9 on tokens per min. Limit: 1000000 / min. Current: 768011 / min. Contact us through our help center at help.openai.com if you continue to have issues..
 Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with_retry in 4.0 seconds as it raised RateLimitError: Rate limit reached for default-text-embedding-ada-002 in organization org-vwqjdaXGZeEg6mWAVSflJXD9 on tokens per min. Limit: 1000000 / min. Current: 666659 / min. Contact us through our help center at help.openai.com if you continue to have issues..
@@ -384,7 +384,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 </div>
 <p>Ahora nuestro retriever está listo para ser utilizado con re-ranking por MMR.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mmr_retriever.search_type</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mmr_retriever.search_type</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>'mmr'</code></pre>
 </div>
@@ -395,7 +395,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>similarity_retriever.get_relevant_documents(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How to integrate LCEL into my Retrieval augmented generation system with a keyword search retriever?"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>[Document(page_content="# Retrieval\n\nMany LLM applications require user-specific data that is not part of the model's training set.\nThe primary way of accomplishing this is through Retrieval Augmented Generation (RAG).\nIn this process, external data is _retrieved_ and then passed to the LLM when doing the _generation_ step.\n\nLangChain provides all the building blocks for RAG applications - from simple to complex.\nThis section of the documentation covers everything related to the _retrieval_ step - e.g. the fetching of the data.\nAlthough this sounds simple, it can be subtly complex.\nThis encompasses several key modules.\n\n![data_connection_diagram](/assets/images/data_connection-c42d68c3d092b85f50d08d4cc171fc25.jpg)\n\n**Document loaders**\n\nLoad documents from many different sources.\nLangChain provides over 100 different document loaders as well as integrations with other major providers in the space,\nlike AirByte and Unstructured.\nWe provide integrations to load all types of documents (HTML, PDF, code) from all types of locations (private s3 buckets, public websites).\n\n**Document transformers**\n\nA key part of retrieval is fetching only the relevant parts of documents.\nThis involves several transformation steps in order to best prepare the documents for retrieval.\nOne of the primary ones here is splitting (or chunking) a large document into smaller chunks.\nLangChain provides several different algorithms for doing this, as well as logic optimized for specific document types (code, markdown, etc).\n\n**Text embedding models**\n\nAnother key part of retrieval has become creating embeddings for documents.\nEmbeddings capture the semantic meaning of the text, allowing you to quickly and\nefficiently find other pieces of text that are similar.\nLangChain provides integrations with over 25 different embedding providers and methods,\nfrom open-source to proprietary API,\nallowing you to choose the one best suited for your needs.\nLangChain provides a standard interface, allowing you to easily swap between models.\n\n**Vector stores**\n\nWith the rise of embeddings, there has emerged a need for databases to support efficient storage and searching of these embeddings.\nLangChain provides integrations with over 50 different vectorstores, from open-source local ones to cloud-hosted proprietary ones,\nallowing you to choose the one best suited for your needs.\nLangChain exposes a standard interface, allowing you to easily swap between vector stores.\n\n**Retrievers**\n\nOnce the data is in the database, you still need to retrieve it.\nLangChain supports many different retrieval algorithms and is one of the places where we add the most value.\nWe support basic methods that are easy to get started - namely simple semantic search.\nHowever, we have also added a collection of algorithms on top of this to increase performance.\nThese include:\n\n- [Parent Document Retriever](/docs/modules/data_connection/retrievers/parent_document_retriever): This allows you to create multiple embeddings per parent document, allowing you to look up smaller chunks but return larger context.\n- [Self Query Retriever](/docs/modules/data_connection/retrievers/self_query): User questions often contain a reference to something that isn't just semantic but rather expresses some logic that can best be represented as a metadata filter. Self-query allows you to parse out the _semantic_ part of a query from other _metadata filters_ present in the query.\n- [Ensemble Retriever](/docs/modules/data_connection/retrievers/ensemble): Sometimes you may want to retrieve documents from multiple different sources, or using multiple different algorithms. The ensemble retriever allows you to easily do this.\n- And more!", metadata={'description': "Many LLM applications require user-specific data that is not part of the model's training set.", 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/', 'title': 'Retrieval | 🦜️🔗 Langchain'}),
  Document(page_content='PubMedPubMed® by The National Center for Biotechnology Information, National Library of Medicine comprises more than 35 million citations for biomedical literature from MEDLINE, life science journals, and online books. Citations may include links to full text content from PubMed Central and publisher web sites.](/docs/integrations/retrievers/pubmed)[📄️ RePhraseQueryRetrieverSimple retriever that applies an LLM between the user input and the query pass the to retriever.](/docs/integrations/retrievers/re_phrase)[📄️ SEC filings dataSEC filings data powered by Kay.ai and Cybersyn.](/docs/integrations/retrievers/sec_filings)[📄️ SVMSupport vector machines (SVMs) are a set of supervised learning methods used for classification, regression and outliers detection.](/docs/integrations/retrievers/svm)[📄️ TF-IDFTF-IDF means term-frequency times inverse document-frequency.](/docs/integrations/retrievers/tf_idf)[📄️ VespaVespa is a fully featured search engine and vector database. It supports vector search (ANN), lexical search, and search in structured data, all in the same query.](/docs/integrations/retrievers/vespa)[📄️ Weaviate Hybrid SearchWeaviate is an open source vector database.](/docs/integrations/retrievers/weaviate-hybrid)[📄️ WikipediaWikipedia is a multilingual free online encyclopedia written and maintained by a community of volunteers, known as Wikipedians, through open collaboration and using a wiki-based editing system called MediaWiki. Wikipedia is the largest and most-read reference work in history.](/docs/integrations/retrievers/wikipedia)[📄️ ZepRetriever Example for Zep - A long-term memory store for LLM applications.](/docs/integrations/retrievers/zep_memorystore)', metadata={'language': 'en', 'source': 'https://python.langchain.com/docs/integrations/retrievers', 'title': 'Retrievers | 🦜️🔗 Langchain'}),
@@ -406,7 +406,7 @@ Retrying langchain.embeddings.openai.embed_with_retry.&lt;locals&gt;._embed_with
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mmr_retriever.get_relevant_documents(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"How to integrate LCEL into my Retrieval augmented generation system with a keyword search retriever?"</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>[Document(page_content="# Retrieval\n\nMany LLM applications require user-specific data that is not part of the model's training set.\nThe primary way of accomplishing this is through Retrieval Augmented Generation (RAG).\nIn this process, external data is _retrieved_ and then passed to the LLM when doing the _generation_ step.\n\nLangChain provides all the building blocks for RAG applications - from simple to complex.\nThis section of the documentation covers everything related to the _retrieval_ step - e.g. the fetching of the data.\nAlthough this sounds simple, it can be subtly complex.\nThis encompasses several key modules.\n\n![data_connection_diagram](/assets/images/data_connection-c42d68c3d092b85f50d08d4cc171fc25.jpg)\n\n**Document loaders**\n\nLoad documents from many different sources.\nLangChain provides over 100 different document loaders as well as integrations with other major providers in the space,\nlike AirByte and Unstructured.\nWe provide integrations to load all types of documents (HTML, PDF, code) from all types of locations (private s3 buckets, public websites).\n\n**Document transformers**\n\nA key part of retrieval is fetching only the relevant parts of documents.\nThis involves several transformation steps in order to best prepare the documents for retrieval.\nOne of the primary ones here is splitting (or chunking) a large document into smaller chunks.\nLangChain provides several different algorithms for doing this, as well as logic optimized for specific document types (code, markdown, etc).\n\n**Text embedding models**\n\nAnother key part of retrieval has become creating embeddings for documents.\nEmbeddings capture the semantic meaning of the text, allowing you to quickly and\nefficiently find other pieces of text that are similar.\nLangChain provides integrations with over 25 different embedding providers and methods,\nfrom open-source to proprietary API,\nallowing you to choose the one best suited for your needs.\nLangChain provides a standard interface, allowing you to easily swap between models.\n\n**Vector stores**\n\nWith the rise of embeddings, there has emerged a need for databases to support efficient storage and searching of these embeddings.\nLangChain provides integrations with over 50 different vectorstores, from open-source local ones to cloud-hosted proprietary ones,\nallowing you to choose the one best suited for your needs.\nLangChain exposes a standard interface, allowing you to easily swap between vector stores.\n\n**Retrievers**\n\nOnce the data is in the database, you still need to retrieve it.\nLangChain supports many different retrieval algorithms and is one of the places where we add the most value.\nWe support basic methods that are easy to get started - namely simple semantic search.\nHowever, we have also added a collection of algorithms on top of this to increase performance.\nThese include:\n\n- [Parent Document Retriever](/docs/modules/data_connection/retrievers/parent_document_retriever): This allows you to create multiple embeddings per parent document, allowing you to look up smaller chunks but return larger context.\n- [Self Query Retriever](/docs/modules/data_connection/retrievers/self_query): User questions often contain a reference to something that isn't just semantic but rather expresses some logic that can best be represented as a metadata filter. Self-query allows you to parse out the _semantic_ part of a query from other _metadata filters_ present in the query.\n- [Ensemble Retriever](/docs/modules/data_connection/retrievers/ensemble): Sometimes you may want to retrieve documents from multiple different sources, or using multiple different algorithms. The ensemble retriever allows you to easily do this.\n- And more!", metadata={'description': "Many LLM applications require user-specific data that is not part of the model's training set.", 'language': 'en', 'source': 'https://python.langchain.com/docs/modules/data_connection/', 'title': 'Retrieval | 🦜️🔗 Langchain'}),
  Document(page_content='### Going deeper\u200b\n\n- Agents, such as the [conversational retrieval agent](/docs/use_cases/question_answering/how_to/conversational_retrieval_agents), can be used for retrieval when necessary while also holding a conversation.', metadata={'description': 'Open In Collab', 'language': 'en', 'source': 'https://python.langchain.com/docs/use_cases/chatbots', 'title': 'Chatbots | 🦜️🔗 Langchain'}),
@@ -588,12 +588,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
+    button.setAttribute("title", "Copiado");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
+      button.setAttribute("data-bs-title", "Copiado");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",

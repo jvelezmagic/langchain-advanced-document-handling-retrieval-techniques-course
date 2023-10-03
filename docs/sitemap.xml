@@ -10,11 +10,11 @@
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/02_context_aware_text_splitting.html</loc>
-    <lastmod>2023-10-02T23:48:55.915Z</lastmod>
+    <lastmod>2023-10-02T23:57:32.164Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/10_lost_in_the_middle_reranking.html</loc>
-    <lastmod>2023-10-02T23:48:59.006Z</lastmod>
+    <lastmod>2023-10-02T23:56:51.389Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/11_everything_together.html</loc>
@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/04_parent_retrievers.html</loc>
-    <lastmod>2023-10-02T23:48:56.928Z</lastmod>
+    <lastmod>2023-10-03T00:12:28.933Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/05_self_retrievers.html</loc>
@@ -34,14 +34,18 @@
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/06_multi_query_retriever.html</loc>
-    <lastmod>2023-10-02T23:48:57.839Z</lastmod>
+    <lastmod>2023-10-02T23:56:49.420Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/07_ensemble_retriever.html</loc>
-    <lastmod>2023-10-02T23:48:58.220Z</lastmod>
+    <lastmod>2023-10-02T23:56:49.900Z</lastmod>
   </url>
   <url>
     <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/08_semantic_reranking.html</loc>
-    <lastmod>2023-10-02T23:48:58.623Z</lastmod>
+    <lastmod>2023-10-02T23:56:50.414Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jvelezmagic.github.io/langchain-advanced-document-handling-retrieval-techniques-course/notebooks/09_maximal_marginal_relevance_reranking.html</loc>
+    <lastmod>2023-10-02T23:56:50.915Z</lastmod>
   </url>
 </urlset>
