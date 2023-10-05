@@ -66,11 +66,17 @@ multi_query_retriever = MultiQueryRetriever.from_llm(
 retriever = EnsembleRetriever(
     retrievers=[keyword_retriever, multi_query_retriever],
     weights=[0.3, 0.7],
+    c=0,
 )
+
 
 CONDENSE_QUESTION_TEMPLATE = """\
 Given the following conversation and a follow up question, rephrase the follow up \
-question to be a standalone question.
+question to be a standalone question. Questions generally contains different \
+entities, so you should rephrase the question according to the entity that is \
+being asked about. Do not made up any information. The only information you can \
+use to formulate the standalone question is the conversation and the follow up \
+question.
 
 Chat History:
 ====================
@@ -123,6 +129,7 @@ def create_retriever_chain(
     use_chat_history: bool,
 ):
     CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(CONDENSE_QUESTION_TEMPLATE)
+
     if not use_chat_history:
         initial_chain = (itemgetter("question")) | retriever
         return initial_chain
@@ -149,13 +156,17 @@ def get_k_or_less_documents(documents: list[Document], k: int):
 
 def reorder_documents(documents: list[Document]):
     reorder = LongContextReorder()
+
+    for i, doc in enumerate(documents):
+        doc.metadata["original_index"] = i
+
     return reorder.transform_documents(documents)
 
 
 def format_docs(docs: Sequence[Document]) -> str:
     formatted_docs: list[str] = []
     for i, doc in enumerate(docs):
-        doc_string = f"<doc id='{i}'>{doc.page_content}</doc>"
+        doc_string = f"<doc id='{doc.metadata.get('original_index', i)}'>{doc.page_content}</doc>"
         formatted_docs.append(doc_string)
     return "\n".join(formatted_docs)
 
