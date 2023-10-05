@@ -53,14 +53,15 @@ semantic_retriever = vectorstore.as_retriever(
     search_type="mmr",
     search_kwargs={
         "k": 6,
-        "fetch_k": 50,
+        "fetch_k": 20,
         "lambda_mult": 0.3,
     },
 )
 
+queries_llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-16k")
 multi_query_retriever = MultiQueryRetriever.from_llm(
     retriever=semantic_retriever,
-    llm=ChatOpenAI(temperature=0, model="gpt-3.5-turbo"),
+    llm=queries_llm,
 )
 
 retriever = EnsembleRetriever(
@@ -72,16 +73,18 @@ retriever = EnsembleRetriever(
 
 CONDENSE_QUESTION_TEMPLATE = """\
 Given the following conversation and a follow up question, rephrase the follow up \
-question to be a standalone question. Questions generally contains different \
-entities, so you should rephrase the question according to the entity that is \
-being asked about. Do not made up any information. The only information you can \
+question to be a standalone question.
+
+Questions generally contains different entities, so you should rephrase \
+the question according to the entity that is being asked about. \
+Do not made up any information. The only information you can \
 use to formulate the standalone question is the conversation and the follow up \
 question.
 
 Chat History:
-====================
+###
 {chat_history}
-====================
+###
 
 Follow Up Input: {question}
 Standalone Question:"""
