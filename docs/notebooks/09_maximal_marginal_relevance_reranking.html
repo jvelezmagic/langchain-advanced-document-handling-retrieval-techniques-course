@@ -313,6 +313,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Repitir los pasos 3 y 4 hasta que se hayan seleccionado <code>k</code> documentos. Es decir, una lista ordenada que parte del documento que más contribuye a la diversidad general hasta el documento que contribuye menos.</li>
 </ol>
 <p>En Langchain, el algoritmo de MMR es utilizado después de que el <code>retriever</code> ha recuperado los documentos más relevantes para la consulta. Por lo tanto, nos aseguramos que estamos seleccionando documentos diversos de un conjunto de documentos que ya son relevantes para la consulta.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../diagrams/slide_diagrama_04_V2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Re-ranking with MMR</figcaption>
+</figure>
+</div>
 <section id="librerías" class="level2">
 <h2 class="anchored" data-anchor-id="librerías">Librerías</h2>
 <div class="cell" data-execution_count="1">
